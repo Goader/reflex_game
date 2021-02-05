@@ -4,6 +4,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import pl.edu.agh.cs.app.ui.game.utils.GameConfiguration;
+
+import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 public class LauncherPane extends VBox {
     private final HBox modeSelector;  // temporary decision, may be implemented later with ToggleButton and CSS sheet
@@ -14,13 +18,13 @@ public class LauncherPane extends VBox {
     private final int pxheight;
     private final int pxwidth;
 
-    public LauncherPane(int height, int width) {
+    public LauncherPane(int height, int width, Function<GameConfiguration, Void> playTrigger) {
         pxheight = height;
         pxwidth = width;
 
         int betweenSettingsSpacing = 20;
         settings = new SettingsPane(betweenSettingsSpacing);
-        controls = new LauncherControlsPane();
+        controls = new LauncherControlsPane(playTrigger, settings);
 
         modeSelector = new ModeSelectorPane(settings);
 

@@ -1,15 +1,16 @@
 package pl.edu.agh.cs.app.ui.launcher.panes;
 
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import pl.edu.agh.cs.app.ui.game.utils.GameConfiguration;
+
+import java.util.function.Function;
 
 public class LauncherControlsPane extends HBox {
     private final Button defaultBtn;
@@ -20,8 +21,14 @@ public class LauncherControlsPane extends HBox {
 
     private final int padding;
 
-    public LauncherControlsPane() {
+    private final Function<GameConfiguration, Void> playTrigger;
+    private final SettingsPane settings;
+
+    public LauncherControlsPane(Function<GameConfiguration, Void> playTrigger, SettingsPane settings) {
         super(20);
+
+        this.playTrigger = playTrigger;
+        this.settings = settings;
 
         padding = 20;
         this.setPadding(new Insets(padding, padding, padding, padding));
@@ -41,7 +48,7 @@ public class LauncherControlsPane extends HBox {
         this.getChildren().addAll(defaultBtn, blankSpace, startBtn, exitBtn);
     }
 
-
+    // will be changed later to provide the default settings from JSON file
     protected void defaultOnClick() {
         Alert msg = new Alert(Alert.AlertType.INFORMATION);
         msg.setTitle("Feature is not yet written");
@@ -50,9 +57,19 @@ public class LauncherControlsPane extends HBox {
     }
 
     protected void startOnClick() {
-        System.out.println(startBtn.widthProperty().get());
-        System.out.println(exitBtn.widthProperty().get());
-        System.out.println(defaultBtn.widthProperty().get());
+        GameConfiguration config;
+        try {
+            config = settings.exportConfig();
+        } catch (NumberFormatException ex) {
+            // maybe it is just temporary
+            Alert msg = new Alert(Alert.AlertType.ERROR);
+            msg.setTitle("Wrong input");
+            String ms = "The data you typed in cannot be interpretated as numbers. Make sure you write them correctly";
+            msg.setHeaderText(ms);
+            msg.show();
+            return;
+        }
+        playTrigger.apply(config);
     }
 
     protected void exitOnClick() {

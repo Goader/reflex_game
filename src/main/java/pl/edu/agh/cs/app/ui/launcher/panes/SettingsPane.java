@@ -43,12 +43,18 @@ public class SettingsPane extends VBox {
     }
 
     public GameConfiguration exportConfig() {
-        GameConfiguration config = new GameConfiguration();
-        if (state.equals(ModeSelectorState.SINGLE)) {
+        GameConfiguration config = new GameConfiguration(state);
+        config.setElementsCount(generals.getElementsCount());
+        config.setChoiceTime(generals.getChoiceTime());
+        if (config.isSingleMode()) {
             // export single game settings
+            config.setFailsCount(singles.getFailsCount());
+            config.setDeltaTime(singles.getDeltaTime());
         }
         else {
             // export multi game settings
+            config.setComputerChoiceTime(multies.getComputerChoiceTime());
+            config.setComputerWinChance(multies.getComputerWinChance());
         }
         return config;
     }
