@@ -3,9 +3,12 @@ package pl.edu.agh.cs.app.ui.launcher.panes;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
 public class LauncherControlsPane extends HBox {
@@ -15,18 +18,14 @@ public class LauncherControlsPane extends HBox {
 
     private final Region blankSpace;
 
-    private final int pxwidth;
     private final int padding;
 
-    public LauncherControlsPane(int width) {
+    public LauncherControlsPane() {
         super(20);
-        this.setMinWidth(width);
-        this.setMaxWidth(width);
 
         padding = 20;
-        this.setPadding(new Insets(padding));
-
-        pxwidth = width;
+        this.setPadding(new Insets(padding, padding, padding, padding));
+        this.setAlignment(Pos.CENTER);
 
         defaultBtn = new Button("Default configuration");
         startBtn = new Button("Start");
@@ -37,30 +36,17 @@ public class LauncherControlsPane extends HBox {
         exitBtn.setOnAction(e -> exitOnClick());
 
         blankSpace = new Region();
+        HBox.setHgrow(blankSpace, Priority.ALWAYS);
 
         this.getChildren().addAll(defaultBtn, blankSpace, startBtn, exitBtn);
-
-        bindBlankSpaceWidth();
-
-//        Label label = new Label();
-//        label.textProperty().bind(blankSpace.prefWidthProperty().asString());
-//        this.getChildren().add(label);
     }
 
-    protected void bindBlankSpaceWidth() {
-        double totalSpacing = 20 * Math.max(this.getChildren().size() - 1, 0);
-        System.out.println(totalSpacing);
-        System.out.println(pxwidth - 2 * padding - totalSpacing);
-        blankSpace.prefWidthProperty().bind(
-            Bindings.subtract(
-                pxwidth - 2 * padding - totalSpacing,
-                startBtn.widthProperty().add(exitBtn.widthProperty().add(defaultBtn.widthProperty()))
-            )
-        );
-    }
 
     protected void defaultOnClick() {
-
+        Alert msg = new Alert(Alert.AlertType.INFORMATION);
+        msg.setTitle("Feature is not yet written");
+        msg.setHeaderText("Setting default settings will be available in the new version. Please type in manually :)");
+        msg.show();
     }
 
     protected void startOnClick() {
