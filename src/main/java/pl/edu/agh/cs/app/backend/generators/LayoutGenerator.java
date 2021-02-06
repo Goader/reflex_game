@@ -1,9 +1,10 @@
 package pl.edu.agh.cs.app.backend.generators;
 
-import javafx.scene.transform.Rotate;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 import pl.edu.agh.cs.app.backend.geometry.Vector2d;
 import pl.edu.agh.cs.app.backend.icons.Icon;
-import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
+import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 
 import java.util.Iterator;
 import java.util.List;
@@ -46,6 +47,9 @@ public class LayoutGenerator {
             icon.setOnMouseClicked(e -> {
                 System.out.println(position);
             });
+            // TODO maybe make shadow via CSS
+            icon.setEffect(new DropShadow(8, Color.rgb(0, 0, 0, 0.8)));
+
             // TODO maybe some other effects
         }
 

@@ -1,7 +1,7 @@
 package pl.edu.agh.cs.app.backend.generators;
 
 import pl.edu.agh.cs.app.backend.geometry.Vector2d;
-import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
+import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 
 import java.util.LinkedList;
 import java.util.List;

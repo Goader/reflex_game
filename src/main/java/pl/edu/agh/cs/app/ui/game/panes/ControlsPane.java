@@ -17,12 +17,12 @@ public class ControlsPane extends VBox {
     private final GameEngine engine;
     private final IGameStatus status;
 
-    public ControlsPane(GameEngine engine, IGameStatus status) {
+    public ControlsPane(GameEngine engine) {
         super();
         this.setSpacing(spacing);
 
         this.engine = engine;
-        this.status = status;
+        this.status = engine.getStatus();
 
         // TODO the appearance will change, so the names are only temporary
         nextRoundBtn = new Button("next");
@@ -31,10 +31,17 @@ public class ControlsPane extends VBox {
         writeStatisticsBtn = new Button("stat");
 
         // TODO onaction
+        nextRoundBtn.setOnAction(e -> nextRoundOnClick());
         stopGameBtn.setOnAction(e -> stopGameOnClick());
         fullScreenBtn.setOnAction(e -> fullScreenOnClick());
 
         this.getChildren().addAll(nextRoundBtn, stopGameBtn, fullScreenBtn, writeStatisticsBtn);
+    }
+
+    private void nextRoundOnClick() {
+        if (status.isRoundFinished() && !status.isGameFinished()) {
+            engine.nextRound();
+        }
     }
 
     private void stopGameOnClick() {
@@ -44,5 +51,6 @@ public class ControlsPane extends VBox {
     private void fullScreenOnClick() {
         status.toggleFullScreen();
     }
+
     // TODO onclick actions
 }

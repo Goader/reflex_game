@@ -5,7 +5,7 @@ import pl.edu.agh.cs.app.backend.status.IGameStatus;
 import pl.edu.agh.cs.app.backend.status.MultiGameStatus;
 import pl.edu.agh.cs.app.ui.game.panes.status.GeneralStatusPane;
 import pl.edu.agh.cs.app.ui.game.panes.status.MultiGameStatusPane;
-import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
+import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 
 public class StatusPane extends HBox {
     private final GeneralStatusPane general;

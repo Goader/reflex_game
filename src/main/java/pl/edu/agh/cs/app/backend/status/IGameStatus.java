@@ -6,4 +6,8 @@ public interface IGameStatus {
     BooleanProperty getFullScreenProperty();
 
     void toggleFullScreen();
+
+    boolean isRoundFinished();
+
+    boolean isGameFinished();
 }

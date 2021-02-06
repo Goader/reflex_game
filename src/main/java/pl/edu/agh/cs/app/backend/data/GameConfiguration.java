@@ -1,4 +1,4 @@
-package pl.edu.agh.cs.app.backend.utils;
+package pl.edu.agh.cs.app.backend.data;
 
 import pl.edu.agh.cs.app.ui.launcher.utils.ModeSelectorState;
 

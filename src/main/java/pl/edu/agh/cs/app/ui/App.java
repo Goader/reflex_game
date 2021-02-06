@@ -3,11 +3,8 @@ package pl.edu.agh.cs.app.ui;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import pl.edu.agh.cs.app.backend.GameEngine;
-import pl.edu.agh.cs.app.backend.status.IGameStatus;
-import pl.edu.agh.cs.app.backend.status.MultiGameStatus;
-import pl.edu.agh.cs.app.backend.status.SingleGameStatus;
+import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 import pl.edu.agh.cs.app.ui.game.MainStage;
-import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
 import pl.edu.agh.cs.app.ui.launcher.LauncherStage;
 
 import java.util.function.Function;
@@ -31,18 +28,16 @@ public class App extends Application {
     public Void play(GameConfiguration config) {
         launcher.close();
 
-        GameEngine engine = new GameEngine();
-        IGameStatus status;
-        if (config.isSingleMode()) {
-            status = new SingleGameStatus();
-        }
-        else {
-            status = new MultiGameStatus();
-        }
+        GameEngine engine = new GameEngine(config);
+
+        Stage mainStage = new MainStage(engine, config);
+
+        Thread thread = new Thread(engine);
+        thread.setDaemon(true);
+        thread.start();
 
         // TODO some code handling the game
 
-        Stage mainStage = new MainStage(engine, status, config);
         mainStage.show();
         return null;
     }

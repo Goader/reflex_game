@@ -2,7 +2,7 @@ package pl.edu.agh.cs.app.ui.launcher;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
+import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 import pl.edu.agh.cs.app.ui.launcher.panes.LauncherPane;
 
 import java.util.function.Function;
