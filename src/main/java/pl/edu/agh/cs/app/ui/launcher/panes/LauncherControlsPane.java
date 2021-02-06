@@ -48,7 +48,7 @@ public class LauncherControlsPane extends HBox {
         this.getChildren().addAll(defaultBtn, blankSpace, startBtn, exitBtn);
     }
 
-    // will be changed later to provide the default settings from JSON file
+    // TODO will be changed later to provide the default settings from JSON file
     protected void defaultOnClick() {
         Alert msg = new Alert(Alert.AlertType.INFORMATION);
         msg.setTitle("Feature is not yet written");
@@ -61,7 +61,7 @@ public class LauncherControlsPane extends HBox {
         try {
             config = settings.exportConfig();
         } catch (NumberFormatException ex) {
-            // maybe it is just temporary
+            // TODO maybe it is just temporary
             Alert msg = new Alert(Alert.AlertType.ERROR);
             msg.setTitle("Wrong input");
             String ms = "The data you typed in cannot be interpretated as numbers. Make sure you write them correctly";

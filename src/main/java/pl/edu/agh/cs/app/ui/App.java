@@ -40,7 +40,7 @@ public class App extends Application {
             status = new MultiGameStatus();
         }
 
-        // some code handling the game
+        // TODO some code handling the game
 
         Stage mainStage = new MainStage(engine, status, config);
         mainStage.show();

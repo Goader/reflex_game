@@ -7,6 +7,9 @@ public class GameConfiguration {
     private int elementsCount;
     private int choiceTime;
 
+    // layout configuration
+    private int radius;
+
     // configuration parameters for single game
     private int failsCount;
     private int deltaTime;
@@ -32,7 +35,17 @@ public class GameConfiguration {
     }
 
     public void setElementsCount(int elementsCount) {
+        if (elementsCount <= 0 || elementsCount > 32) {
+            throw new IllegalArgumentException("Elements count must be in the [1, 32] range");
+        }
         this.elementsCount = elementsCount;
+        /*
+        Radius is calculated the next way:
+            for elements count up to 12 - it is 128px
+            for elements count from 12 to 32 - it shrinks linearly from 128px to 64px
+            for elements count = 32 - it is already 64px
+         */
+        this.radius = 128 - Math.max(64 * (elementsCount - 12) / 20, 0);
     }
 
     public int getChoiceTime() {
@@ -97,5 +110,9 @@ public class GameConfiguration {
             throw new IllegalStateException("This parameter is used only in multi mode, and the config isn't in one");
         }
         this.computerWinChance = computerWinChance;
+    }
+
+    public int getRadius() {
+        return radius;
     }
 }

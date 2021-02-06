@@ -14,10 +14,10 @@ public class SingleGameSettingsPane extends VBox {
     public SingleGameSettingsPane(int spacing, int boxSpacing) {
         super(spacing);
 
-        // gameType is called so because it can be upgraded later to such state, now it is rather DeltaTime
+        // TODO gameType is called so because it can be upgraded later to such state, now it is rather DeltaTime
 
-        failsCountField = new TextField();
-        gameTypeField = new TextField();
+        failsCountField = new TextField("10");
+        gameTypeField = new TextField("10");
 
         failsCountBox = new SettingsBox(boxSpacing);
         gameTypeBox = new SettingsBox(boxSpacing);

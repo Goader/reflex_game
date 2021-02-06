@@ -10,7 +10,7 @@ import java.util.concurrent.Callable;
 import java.util.function.Function;
 
 public class LauncherPane extends VBox {
-    private final HBox modeSelector;  // temporary decision, may be implemented later with ToggleButton and CSS sheet
+    private final HBox modeSelector;  // TODO temporary decision, may be implemented later with ToggleButton and CSS sheet
     private final SettingsPane settings;
     private final LauncherControlsPane controls;
     private final Region blankSpace;

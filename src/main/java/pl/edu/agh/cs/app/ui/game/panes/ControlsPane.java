@@ -1,5 +1,6 @@
 package pl.edu.agh.cs.app.ui.game.panes;
 
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import pl.edu.agh.cs.app.backend.GameEngine;
@@ -23,20 +24,25 @@ public class ControlsPane extends VBox {
         this.engine = engine;
         this.status = status;
 
-        // the appearance will change, so the names are only temporary
+        // TODO the appearance will change, so the names are only temporary
         nextRoundBtn = new Button("next");
         stopGameBtn = new Button("stop");
         fullScreenBtn = new Button("full");
         writeStatisticsBtn = new Button("stat");
 
-        // onaction
+        // TODO onaction
+        stopGameBtn.setOnAction(e -> stopGameOnClick());
         fullScreenBtn.setOnAction(e -> fullScreenOnClick());
 
         this.getChildren().addAll(nextRoundBtn, stopGameBtn, fullScreenBtn, writeStatisticsBtn);
     }
 
+    private void stopGameOnClick() {
+        Platform.exit();
+    }
+
     private void fullScreenOnClick() {
         status.toggleFullScreen();
     }
-    // onclick actions
+    // TODO onclick actions
 }
