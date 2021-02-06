@@ -3,31 +3,26 @@ package pl.edu.agh.cs.app.ui.game.panes;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import pl.edu.agh.cs.app.backend.generators.LayoutGenerator;
 import pl.edu.agh.cs.app.backend.generators.PointsGenerator;
 import pl.edu.agh.cs.app.backend.geometry.Vector2d;
+import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
+import pl.edu.agh.cs.app.backend.utils.IconsLoader;
 
 import java.util.List;
 
 // still not sure about inheriting from group or from pane
 public class GamePane extends Pane {
-    public GamePane(double height, double width) {
+    public GamePane(GameConfiguration config) {
         super();
-        this.setHeight(height);
-        this.setWidth(width);
+        this.setHeight(config.getGameHeight());
+        this.setWidth(config.getGameWidth());
 
         // TODO may be changed later simply using CSS file
-        this.setStyle("-fx-background-color: white;");
+        this.setStyle("-fx-background-color: white;");  // the color may changed to the other one or even image
 
         // TODO this should not be here, should be distributed between LayoutGenerator and GameEngine
-        int count = 28;
-        int radius = 128 - Math.max(64 * (count - 12) / (32 - 12), 0);
-        PointsGenerator pointsGenerator = new PointsGenerator((int) height, (int) width, radius);
-        List<Vector2d> points = pointsGenerator.generate(count);
-
-        for (Vector2d point : points) {
-            Circle circle = new Circle(point.getX(), point.getY(), radius, Color.DARKORANGE);
-            this.getChildren().add(circle);
-        }
-
+        LayoutGenerator layout = new LayoutGenerator(config);
+        this.getChildren().addAll(layout.generate());
     }
 }

@@ -4,9 +4,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import pl.edu.agh.cs.app.ui.game.utils.GameConfiguration;
+import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
 
-import java.util.concurrent.Callable;
 import java.util.function.Function;
 
 public class LauncherPane extends VBox {

@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.app.backend.generators;
 
 import pl.edu.agh.cs.app.backend.geometry.Vector2d;
+import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,14 +16,15 @@ public class PointsGenerator {
 
     private final Random random;
 
-    public PointsGenerator(int maxHeight, int maxWidth, int radius) {
-        maxY = maxHeight - radius;
+    public PointsGenerator(GameConfiguration config) {
+        this.radius = config.getRadius();
+
+        maxY = config.getGameHeight() - radius;
         minY = radius;
 
-        maxX = maxWidth - radius;
+        maxX = config.getGameWidth() - radius;
         minX = radius;
 
-        this.radius = radius;
         random = new Random();
     }
 

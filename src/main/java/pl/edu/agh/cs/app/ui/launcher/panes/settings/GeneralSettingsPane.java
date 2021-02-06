@@ -16,7 +16,7 @@ public class GeneralSettingsPane extends VBox {
         super(spacing);
 
         // TODO default values are temporary
-        elementsCountField = new TextField("10");
+        elementsCountField = new TextField("32");
         choiceTimeField = new TextField("5000");
 
         elementsCountBox = new SettingsBox(boxSpacing);

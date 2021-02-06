@@ -2,7 +2,7 @@ package pl.edu.agh.cs.app.ui.launcher.panes;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
-import pl.edu.agh.cs.app.ui.game.utils.GameConfiguration;
+import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
 import pl.edu.agh.cs.app.ui.launcher.panes.settings.GeneralSettingsPane;
 import pl.edu.agh.cs.app.ui.launcher.panes.settings.MultiGameSettingsPane;
 import pl.edu.agh.cs.app.ui.launcher.panes.settings.SingleGameSettingsPane;

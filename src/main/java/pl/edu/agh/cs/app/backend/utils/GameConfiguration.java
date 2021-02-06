@@ -1,4 +1,4 @@
-package pl.edu.agh.cs.app.ui.game.utils;
+package pl.edu.agh.cs.app.backend.utils;
 
 import pl.edu.agh.cs.app.ui.launcher.utils.ModeSelectorState;
 
@@ -9,6 +9,8 @@ public class GameConfiguration {
 
     // layout configuration
     private int radius;
+    private int gameHeight;
+    private int gameWidth;
 
     // configuration parameters for single game
     private int failsCount;
@@ -45,7 +47,7 @@ public class GameConfiguration {
             for elements count from 12 to 32 - it shrinks linearly from 128px to 64px
             for elements count = 32 - it is already 64px
          */
-        this.radius = 128 - Math.max(64 * (elementsCount - 12) / 20, 0);
+        this.radius = 128 - Math.max((64 * (elementsCount - 12)) / 20, 0);
     }
 
     public int getChoiceTime() {
@@ -114,5 +116,21 @@ public class GameConfiguration {
 
     public int getRadius() {
         return radius;
+    }
+
+    public int getGameHeight() {
+        return gameHeight;
+    }
+
+    public void setGameHeight(int gameHeight) {
+        this.gameHeight = gameHeight;
+    }
+
+    public int getGameWidth() {
+        return gameWidth;
+    }
+
+    public void setGameWidth(int gameWidth) {
+        this.gameWidth = gameWidth;
     }
 }

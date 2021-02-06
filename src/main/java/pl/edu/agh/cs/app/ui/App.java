@@ -7,7 +7,7 @@ import pl.edu.agh.cs.app.backend.status.IGameStatus;
 import pl.edu.agh.cs.app.backend.status.MultiGameStatus;
 import pl.edu.agh.cs.app.backend.status.SingleGameStatus;
 import pl.edu.agh.cs.app.ui.game.MainStage;
-import pl.edu.agh.cs.app.ui.game.utils.GameConfiguration;
+import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
 import pl.edu.agh.cs.app.ui.launcher.LauncherStage;
 
 import java.util.function.Function;

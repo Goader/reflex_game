@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import pl.edu.agh.cs.app.ui.game.utils.GameConfiguration;
+import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
 
 import java.util.function.Function;
 

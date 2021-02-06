@@ -4,7 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import pl.edu.agh.cs.app.backend.GameEngine;
 import pl.edu.agh.cs.app.backend.status.IGameStatus;
-import pl.edu.agh.cs.app.ui.game.utils.GameConfiguration;
+import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
 
 public class MainPane extends BorderPane {
     private final StatusPane statusPane;
@@ -22,8 +22,6 @@ public class MainPane extends BorderPane {
         this.setPadding(new Insets(20));
         this.setMinWidth(width);
         this.setMinHeight(height);
-        System.out.println(height);
-        System.out.println(width);
         height -= 2 * padding;
         width -= 2 * padding;
 
@@ -34,8 +32,11 @@ public class MainPane extends BorderPane {
         double gameHeight = 0.9 * height;
         double gameWidth = 0.95 * width;
 
+        config.setGameHeight((int) gameHeight);
+        config.setGameWidth((int) gameWidth);
+
         statusPane = new StatusPane(status, config);
-        gamePane = new GamePane(gameHeight, gameWidth);
+        gamePane = new GamePane(config);
         controls = new ControlsPane(engine, status);
 
         statusPane.setMinSize(width, height - gameHeight);

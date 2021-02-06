@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import pl.edu.agh.cs.app.backend.GameEngine;
 import pl.edu.agh.cs.app.backend.status.IGameStatus;
 import pl.edu.agh.cs.app.ui.game.panes.MainPane;
-import pl.edu.agh.cs.app.ui.game.utils.GameConfiguration;
+import pl.edu.agh.cs.app.backend.utils.GameConfiguration;
 
 public class MainStage extends Stage {
     private final int GAME_PIXELS_HEIGHT = 1080;
