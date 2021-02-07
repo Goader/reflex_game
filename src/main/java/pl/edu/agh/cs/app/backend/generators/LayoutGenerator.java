@@ -49,6 +49,7 @@ public class LayoutGenerator {
             });
             // TODO maybe make shadow via CSS
             icon.setEffect(new DropShadow(8, Color.rgb(0, 0, 0, 0.8)));
+            icon.setId("icon");
 
             // TODO maybe some other effects
         }

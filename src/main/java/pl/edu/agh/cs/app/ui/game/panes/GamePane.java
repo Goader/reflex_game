@@ -22,6 +22,9 @@ public class GamePane extends Pane {
 
         engine.setGamePane(this);
 
+        // TODO change this
+        this.getStylesheets().add(getClass().getResource("/style/icon.css").toExternalForm());
+
         // TODO may be changed later simply using CSS file
         this.setStyle("-fx-background-color: white;");  // the color may changed to the other one or even image
 

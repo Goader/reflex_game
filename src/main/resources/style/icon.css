@@ -1,0 +1,11 @@
+#icon {
+    -fx-transition: all .3s;
+}
+
+#icon:hover {
+    -fx-scale-shape: 1.03;
+}
+
+#icon.button:pressed {
+    -fx-scale-shape: 0.98;
+}

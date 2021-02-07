@@ -8,11 +8,19 @@ public interface IGameStatus {
 
     void toggleFullScreen();
 
+    boolean isChoiceHandled();
+
+    void handleChoice();
+
     void pressed(PressedStatus pressed);
 
     boolean isSuccess();
 
     boolean isFailure();
+
+    int getRoundTime();
+
+    void setPressedTime(int pressedTime);
 
     void startRound();
 
@@ -20,7 +28,7 @@ public interface IGameStatus {
 
     boolean isRoundFinished();
 
-    void endGame();
-
     boolean isGameFinished();
+
+
 }

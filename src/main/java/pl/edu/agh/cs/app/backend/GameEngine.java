@@ -1,5 +1,6 @@
 package pl.edu.agh.cs.app.backend;
 
+import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.Group;
@@ -18,6 +19,9 @@ import pl.edu.agh.cs.app.ui.game.panes.GamePane;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
 
 public class GameEngine {
     private final GameConfiguration config;
@@ -28,6 +32,8 @@ public class GameEngine {
     private MultiGameStatus multiGameStatus;
 
     private final LayoutGenerator generator;
+
+    private Timer timer;
 
     public GameEngine(GameConfiguration config) {
         super();
@@ -40,11 +46,11 @@ public class GameEngine {
         multiGameStatus = null;
 
         if (config.isSingleMode()) {
-            singleGameStatus = new SingleGameStatus();
+            singleGameStatus = new SingleGameStatus(config);
             status = singleGameStatus;
         }
         else {
-            multiGameStatus = new MultiGameStatus();
+            multiGameStatus = new MultiGameStatus(config);
             status = multiGameStatus;
         }
 
@@ -180,16 +186,40 @@ public class GameEngine {
     }
 
     private void play(List<Icon> icons) {
+        Semaphore semaphore = new Semaphore(0);
         Platform.runLater(() -> {
             gamePane.clear();
             gamePane.addAll(icons);
             // TODO add time countdown somewhere
+            semaphore.release();
         });
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+            Platform.exit();
+        }
+        GameEngine engine = this;
+        // maybe that's not the best way to handle this problem, still it works
+        timer = new Timer(true);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Thread thread = new Thread(engine.getPressedTask());
+                thread.setDaemon(true);
+                thread.start();
+            }
+        }, status.getRoundTime());
     }
 
     private void pressed() {
         // TODO maybe more actions
 //        sleep(200);  // dont know how to create the feeling of really clicking  // maybe CSS?
+        timer.cancel();
+        // the if statement fixes the problem that would occur if clicking would be late to cancel the timer task
+        // so they would be executed simultaneously causing lots of problems
+        if (!status.isChoiceHandled()) status.handleChoice();
+        else return;
         if (status.isSuccess()) success();
         else if (status.isFailure()) failure();
         else notPressed();
@@ -226,7 +256,7 @@ public class GameEngine {
                 "-fx-font-weight: bold;\n" +
                 "-fx-text-fill: #333333;\n" +
                 "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
-        updateLabel(failure, "Nothing pressed");
+        updateLabel(failure, "Not pressed");
         sleep(1800);
         endRound();
     }
@@ -240,11 +270,20 @@ public class GameEngine {
                 "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
         updateLabel(endMsg, "Press the green button to continue");
         status.endRound();
+        if (status.isGameFinished()) {
+            endGame();
+            return;
+        }
         nextRound();  // TODO don't know what is better :(
     }
 
     private void endGame() {
-
+        Label endGameMsg = new Label();
+        endGameMsg.setStyle("-fx-font-size: 128px;\n" +
+                "-fx-font-weight: bold;\n" +
+                "-fx-text-fill: #333333;\n" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
+        updateLabel(endGameMsg, "Game Over");
     }
 
     private Text labelSizeAux(Label label) {

@@ -2,21 +2,29 @@ package pl.edu.agh.cs.app.backend.status;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 import pl.edu.agh.cs.app.backend.status.states.PressedStatus;
 
 abstract public class AbstractGameStatus implements IGameStatus {
+    protected final GameConfiguration config;
+
     protected final BooleanProperty fullScreenProperty;
 
     protected boolean roundFinished;
     protected boolean gameFinished;
+    protected boolean handledChoice;
 
     protected PressedStatus pressed;
+    protected int roundTime;
+    protected int timePressed;
 
-    public AbstractGameStatus() {
+    public AbstractGameStatus(GameConfiguration config) {
+        this.config = config;
         fullScreenProperty = new SimpleBooleanProperty(true);
         roundFinished = true;
         gameFinished = false;
         pressed = PressedStatus.NOTPRESSED;
+        roundTime = config.getChoiceTime();
     }
 
     @Override
@@ -27,6 +35,16 @@ abstract public class AbstractGameStatus implements IGameStatus {
     @Override
     public void toggleFullScreen() {
         fullScreenProperty.set(!fullScreenProperty.get());
+    }
+
+    @Override
+    public boolean isChoiceHandled() {
+        return handledChoice;
+    }
+
+    @Override
+    public void handleChoice() {
+        handledChoice = true;
     }
 
     @Override
@@ -45,8 +63,19 @@ abstract public class AbstractGameStatus implements IGameStatus {
     }
 
     @Override
+    public int getRoundTime() {
+        return roundTime;
+    }
+
+    @Override
+    public void setPressedTime(int pressedTime) {
+        timePressed = pressedTime;
+    }
+
+    @Override
     public void startRound() {
         roundFinished = false;
+        handledChoice = false;
         pressed = PressedStatus.NOTPRESSED;
     }
 
@@ -61,13 +90,12 @@ abstract public class AbstractGameStatus implements IGameStatus {
     }
 
     @Override
-    public void endGame() {
-        gameFinished = true;
-    }
-
-    @Override
     public boolean isGameFinished() {
         return gameFinished;
+    }
+
+    protected void endGame() {
+        gameFinished = true;
     }
 
 
