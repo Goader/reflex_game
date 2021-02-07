@@ -139,17 +139,19 @@ public class GameEngine {
         Icon searchedIcon = icons.get(new Random().nextInt(icons.size()));
         setMouseClickHandler(searchedIcon, PressedStatus.SUCCESS);
         Icon findIcon = searchedIcon.copy();
+        final int findIconRadius = 200;
+        findIcon.setRadius(findIconRadius);
 
         Platform.runLater(() -> {
             gamePane.clear();
 
             double msgHeight =
-                    (config.getGameHeight() - labelHeight(findMsg) - msgIconSpacing - 2 * config.getRadius()) / 2;
+                    (config.getGameHeight() - labelHeight(findMsg) - msgIconSpacing - 2 * findIconRadius) / 2;
 
             findMsg.setLayoutX((config.getGameWidth() - labelWidth(findMsg)) / 2);
             findMsg.setLayoutY(msgHeight);
             Vector2d center = new Vector2d(config.getGameWidth() / 2,
-                    (int) (msgHeight + labelHeight(findMsg) + msgIconSpacing));
+                    (int) (msgHeight + labelHeight(findMsg) + msgIconSpacing + findIconRadius));
             findIcon.setCenter(center);
             gamePane.add(findMsg, findIcon);
         });
@@ -238,6 +240,7 @@ public class GameEngine {
                 "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
         updateLabel(endMsg, "Press the green button to continue");
         status.endRound();
+        nextRound();  // TODO don't know what is better :(
     }
 
     private void endGame() {
