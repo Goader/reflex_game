@@ -32,7 +32,7 @@ public class App extends Application {
 
         Stage mainStage = new MainStage(engine, config);
 
-        Thread thread = new Thread(engine);
+        Thread thread = new Thread(engine.getStartTask());
         thread.setDaemon(true);
         thread.start();
 

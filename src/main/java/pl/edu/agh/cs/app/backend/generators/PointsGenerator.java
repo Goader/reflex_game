@@ -8,27 +8,33 @@ import java.util.List;
 import java.util.Random;
 
 public class PointsGenerator {
-    private final int maxY;
-    private final int maxX;
-    private final int minY;
-    private final int minX;
-    private final int radius;
+    private int maxY;
+    private int maxX;
+    private int minY;
+    private int minX;
+    private int radius;
+
+    private final GameConfiguration config;
 
     private final Random random;
 
     public PointsGenerator(GameConfiguration config) {
-        this.radius = config.getRadius();
+        this.config = config;
+
+        random = new Random();
+    }
+
+    private void updateParameters() {
+        radius = config.getRadius();
 
         maxY = config.getGameHeight() - radius;
         minY = radius;
 
         maxX = config.getGameWidth() - radius;
         minX = radius;
-
-        random = new Random();
     }
 
-    public Vector2d generatePoint() {
+    private Vector2d generatePoint() {
         int x = random.nextInt(maxX - minX) + minX;
         int y = random.nextInt(maxY - minY) + minY;
         return new Vector2d(x, y);
@@ -38,6 +44,7 @@ public class PointsGenerator {
     // https://www.youtube.com/watch?v=7WcmyxyFO7o
     // https://www.cs.ubc.ca/~rbridson/docs/bridson-siggraph07-poissondisk.pdf
     public List<Vector2d> generate(int pointsCount) {
+        updateParameters();
         LinkedList<Vector2d> points = new LinkedList<>();
         boolean valid;
         while (points.size() < pointsCount) {

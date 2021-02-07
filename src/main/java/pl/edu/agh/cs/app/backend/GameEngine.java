@@ -7,17 +7,25 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import pl.edu.agh.cs.app.backend.data.GameConfiguration;
+import pl.edu.agh.cs.app.backend.generators.LayoutGenerator;
 import pl.edu.agh.cs.app.backend.status.IGameStatus;
 import pl.edu.agh.cs.app.backend.status.MultiGameStatus;
 import pl.edu.agh.cs.app.backend.status.SingleGameStatus;
 import pl.edu.agh.cs.app.ui.game.panes.GamePane;
 
-public class GameEngine extends Task {
+public class GameEngine {
     private final GameConfiguration config;
 
     private GamePane gamePane;
+    private IGameStatus status;
     private SingleGameStatus singleGameStatus;
     private MultiGameStatus multiGameStatus;
+
+    private final LayoutGenerator generator;
+
+    private final Task startTask;
+    private final Task nextRoundTask;
+    private final Task pressedTask;
 
     public GameEngine(GameConfiguration config) {
         super();
@@ -31,10 +39,50 @@ public class GameEngine extends Task {
 
         if (config.isSingleMode()) {
             singleGameStatus = new SingleGameStatus();
+            status = singleGameStatus;
         }
         else {
             multiGameStatus = new MultiGameStatus();
+            status = multiGameStatus;
         }
+
+        generator = new LayoutGenerator(config);
+
+        startTask = new Task() {
+            @Override
+            protected Object call() {
+                startGame();
+                return null;
+            }
+        };
+
+        nextRoundTask = new Task() {
+            @Override
+            protected Object call() {
+                nextRound();
+                return null;
+            }
+        };
+
+        pressedTask = new Task() {
+            @Override
+            protected Object call() {
+                pressed();
+                return null;
+            }
+        };
+    }
+
+    public Task getStartTask() {
+        return startTask;
+    }
+
+    public Task getNextRoundTask() {
+        return nextRoundTask;
+    }
+
+    public Task getPressedTask() {
+        return pressedTask;
     }
 
     public void setGamePane(GamePane gamePane) {
@@ -43,12 +91,6 @@ public class GameEngine extends Task {
 
     public IGameStatus getStatus() {
         return config.isSingleMode() ? singleGameStatus : multiGameStatus;
-    }
-
-    @Override
-    protected Object call() {
-        startGame();
-        return null;
     }
 
     private void sleep(int time) {
@@ -65,10 +107,11 @@ public class GameEngine extends Task {
             throw new IllegalStateException("You cannot start game without linking the game window first");
         }
 
-        startCountdown();
+        nextRound();
     }
 
     public void nextRound() {
+        status.startRound();
         startCountdown();
     }
 
@@ -102,6 +145,14 @@ public class GameEngine extends Task {
     }
 
     private void play() {
+        Platform.runLater(() -> {
+            gamePane.clear();
+            gamePane.addAll(generator.generate());
+            // TODO add time countdown somewhere
+        });
+    }
+
+    private void pressed() {
 
     }
 

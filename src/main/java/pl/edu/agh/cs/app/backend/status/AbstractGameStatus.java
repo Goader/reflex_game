@@ -26,8 +26,23 @@ abstract public class AbstractGameStatus implements IGameStatus {
     }
 
     @Override
+    public void startRound() {
+        roundFinished = false;
+    }
+
+    @Override
+    public void endRound() {
+        roundFinished = true;
+    }
+
+    @Override
     public boolean isRoundFinished() {
         return roundFinished;
+    }
+
+    @Override
+    public void endGame() {
+        gameFinished = true;
     }
 
     @Override

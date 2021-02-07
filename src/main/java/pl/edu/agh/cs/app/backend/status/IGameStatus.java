@@ -7,7 +7,13 @@ public interface IGameStatus {
 
     void toggleFullScreen();
 
+    void startRound();
+
+    void endRound();
+
     boolean isRoundFinished();
+
+    void endGame();
 
     boolean isGameFinished();
 }

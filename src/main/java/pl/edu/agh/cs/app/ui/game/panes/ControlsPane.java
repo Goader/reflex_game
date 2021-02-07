@@ -40,7 +40,9 @@ public class ControlsPane extends VBox {
 
     private void nextRoundOnClick() {
         if (status.isRoundFinished() && !status.isGameFinished()) {
-            engine.nextRound();
+            Thread thread = new Thread(engine.getNextRoundTask());
+            thread.setDaemon(true);
+            thread.start();
         }
     }
 
