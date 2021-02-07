@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 import pl.edu.agh.cs.app.backend.generators.LayoutGenerator;
+import pl.edu.agh.cs.app.backend.geometry.Vector2d;
 import pl.edu.agh.cs.app.backend.icons.Icon;
 import pl.edu.agh.cs.app.backend.status.IGameStatus;
 import pl.edu.agh.cs.app.backend.status.MultiGameStatus;
@@ -97,46 +98,22 @@ public class GameEngine {
         }
     }
 
+    private void updateLabel(Label label, String text) {
+        Platform.runLater(() -> {
+            label.setText(text);
+            gamePane.clear();
+            label.setLayoutX((config.getGameWidth() - labelWidth(label)) / 2);
+            label.setLayoutY((config.getGameHeight() - labelHeight(label)) / 2);
+            gamePane.add(label);
+        });
+    }
+
     public void startGame() {
         if (gamePane == null) {
             throw new IllegalStateException("You cannot start game without linking the game window first");
         }
 
         nextRound();
-    }
-
-    public void nextRound() {
-        status.startRound();
-        startCountdown();
-    }
-
-    private void updateCountdown(Label countdown, String text) {
-        Platform.runLater(() -> {
-            countdown.setText(text);
-            gamePane.clear();
-            countdown.setLayoutX((config.getGameWidth() - labelWidth(countdown)) / 2);
-            countdown.setLayoutY((config.getGameHeight() - labelHeight(countdown)) / 2);
-            gamePane.add(countdown);
-        });
-    }
-
-    private void startCountdown() {
-        Label countdown = new Label();
-        countdown.setStyle("-fx-font-size: 128px;\n" +
-                "-fx-font-weight: bold;\n" +
-                "-fx-text-fill: #333333;\n" +
-                "-fx-effect: dropshadow(gaussian, rgba(255,255,255,0.5), 1,1,1,1);");
-
-        updateCountdown(countdown, "3");
-        sleep(1000);
-        updateCountdown(countdown, "2");
-        sleep(1000);
-        updateCountdown(countdown, "1");
-        sleep(1000);
-        updateCountdown(countdown, "Go!");
-        sleep(1000);
-
-        play();
     }
 
     private void setMouseClickHandler(Icon icon, PressedStatus pressed) {
@@ -148,12 +125,59 @@ public class GameEngine {
         });
     }
 
-    private void play() {
+    public void nextRound() {
+        final int msgIconSpacing = 100;
+        Label findMsg = new Label("Try to find this icon");
+        findMsg.setStyle("-fx-font-size: 128px;\n" +
+                "-fx-font-weight: bold;\n" +
+                "-fx-text-fill: #333333;\n" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1, 1, 1, 1);");
         List<Icon> icons = generator.generate();
         for (Icon icon : icons) {
             setMouseClickHandler(icon, PressedStatus.FAILURE);
         }
-        setMouseClickHandler(icons.get(new Random().nextInt(icons.size())), PressedStatus.SUCCESS);
+        Icon searchedIcon = icons.get(new Random().nextInt(icons.size()));
+        setMouseClickHandler(searchedIcon, PressedStatus.SUCCESS);
+        Icon findIcon = searchedIcon.copy();
+
+        Platform.runLater(() -> {
+            gamePane.clear();
+
+            double msgHeight =
+                    (config.getGameHeight() - labelHeight(findMsg) - msgIconSpacing - 2 * config.getRadius()) / 2;
+
+            findMsg.setLayoutX((config.getGameWidth() - labelWidth(findMsg)) / 2);
+            findMsg.setLayoutY(msgHeight);
+            Vector2d center = new Vector2d(config.getGameWidth() / 2,
+                    (int) (msgHeight + labelHeight(findMsg) + msgIconSpacing));
+            findIcon.setCenter(center);
+            gamePane.add(findMsg, findIcon);
+        });
+        status.startRound();
+        sleep(3000);
+        startCountdown(icons);
+    }
+
+    private void startCountdown(List<Icon> icons) {
+        Label countdown = new Label();
+        countdown.setStyle("-fx-font-size: 128px;\n" +
+                "-fx-font-weight: bold;\n" +
+                "-fx-text-fill: #333333;\n" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
+
+        updateLabel(countdown, "3");
+        sleep(1000);
+        updateLabel(countdown, "2");
+        sleep(1000);
+        updateLabel(countdown, "1");
+        sleep(1000);
+        updateLabel(countdown, "Go!");
+        sleep(1000);
+
+        play(icons);
+    }
+
+    private void play(List<Icon> icons) {
         Platform.runLater(() -> {
             gamePane.clear();
             gamePane.addAll(icons);
@@ -162,32 +186,57 @@ public class GameEngine {
     }
 
     private void pressed() {
-        // TODO will be changed
+        // TODO maybe more actions
+//        sleep(200);  // dont know how to create the feeling of really clicking  // maybe CSS?
         if (status.isSuccess()) success();
         else if (status.isFailure()) failure();
         else notPressed();
     }
 
     private void success() {
-        // TODO will be changed
-        Platform.runLater(gamePane::clear);
+        // TODO maybe more styling
+        Label success = new Label();
+        success.setStyle("-fx-font-size: 128px;\n" +
+                "-fx-font-weight: bold;\n" +
+                "-fx-text-fill: #007700;\n" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
+        updateLabel(success, "Success");
+        sleep(1800);
         endRound();
     }
 
     private void failure() {
-        // TODO will be changed
-        Platform.runLater(gamePane::clear);
+        // TODO maybe more styling
+        Label failure = new Label();
+        failure.setStyle("-fx-font-size: 128px;\n" +
+                "-fx-font-weight: bold;\n" +
+                "-fx-text-fill: #990000;\n" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
+        updateLabel(failure, "Failure");
+        sleep(1800);
         endRound();
     }
 
     private void notPressed() {
-        // TODO will be change
-        Platform.runLater(gamePane::clear);
+        // TODO maybe more styling
+        Label failure = new Label();
+        failure.setStyle("-fx-font-size: 128px;\n" +
+                "-fx-font-weight: bold;\n" +
+                "-fx-text-fill: #333333;\n" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
+        updateLabel(failure, "Nothing pressed");
+        sleep(1800);
         endRound();
     }
 
     private void endRound() {
         // TODO more activities should be done here
+        Label endMsg = new Label();
+        endMsg.setStyle("-fx-font-size: 64px;\n" +
+                "-fx-font-weight: bold;\n" +
+                "-fx-text-fill: #333333;\n" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
+        updateLabel(endMsg, "Press the green button to continue");
         status.endRound();
     }
 

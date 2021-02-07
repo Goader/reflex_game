@@ -6,9 +6,18 @@ import javafx.scene.shape.Circle;
 import pl.edu.agh.cs.app.backend.geometry.Vector2d;
 
 public class Icon extends Circle {
+    private final Image img;
+
     public Icon(Image img) {
         super();
         this.setFill(new ImagePattern(img));
+        this.img = img;
+    }
+
+    public Icon copy() {
+        Icon copied = new Icon(img);
+        copied.setRadius(this.getRadius());
+        return copied;
     }
 
     public void setCenter(Vector2d center) {
