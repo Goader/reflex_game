@@ -8,10 +8,15 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 import pl.edu.agh.cs.app.backend.generators.LayoutGenerator;
+import pl.edu.agh.cs.app.backend.icons.Icon;
 import pl.edu.agh.cs.app.backend.status.IGameStatus;
 import pl.edu.agh.cs.app.backend.status.MultiGameStatus;
 import pl.edu.agh.cs.app.backend.status.SingleGameStatus;
+import pl.edu.agh.cs.app.backend.status.states.PressedStatus;
 import pl.edu.agh.cs.app.ui.game.panes.GamePane;
+
+import java.util.List;
+import java.util.Random;
 
 public class GameEngine {
     private final GameConfiguration config;
@@ -22,10 +27,6 @@ public class GameEngine {
     private MultiGameStatus multiGameStatus;
 
     private final LayoutGenerator generator;
-
-    private final Task startTask;
-    private final Task nextRoundTask;
-    private final Task pressedTask;
 
     public GameEngine(GameConfiguration config) {
         super();
@@ -47,42 +48,36 @@ public class GameEngine {
         }
 
         generator = new LayoutGenerator(config);
+    }
 
-        startTask = new Task() {
+    public Task getStartTask() {
+        return new Task() {
             @Override
             protected Object call() {
                 startGame();
                 return null;
             }
         };
+    }
 
-        nextRoundTask = new Task() {
+    public Task getNextRoundTask() {
+        return new Task() {
             @Override
             protected Object call() {
                 nextRound();
                 return null;
             }
         };
+    }
 
-        pressedTask = new Task() {
+    public Task getPressedTask() {
+        return new Task() {
             @Override
             protected Object call() {
                 pressed();
                 return null;
             }
         };
-    }
-
-    public Task getStartTask() {
-        return startTask;
-    }
-
-    public Task getNextRoundTask() {
-        return nextRoundTask;
-    }
-
-    public Task getPressedTask() {
-        return pressedTask;
     }
 
     public void setGamePane(GamePane gamePane) {
@@ -144,28 +139,56 @@ public class GameEngine {
         play();
     }
 
+    private void setMouseClickHandler(Icon icon, PressedStatus pressed) {
+        icon.setOnMouseClicked(e -> {
+            status.pressed(pressed);
+            Thread thread = new Thread(this.getPressedTask());
+            thread.setDaemon(true);
+            thread.start();
+        });
+    }
+
     private void play() {
+        List<Icon> icons = generator.generate();
+        for (Icon icon : icons) {
+            setMouseClickHandler(icon, PressedStatus.FAILURE);
+        }
+        setMouseClickHandler(icons.get(new Random().nextInt(icons.size())), PressedStatus.SUCCESS);
         Platform.runLater(() -> {
             gamePane.clear();
-            gamePane.addAll(generator.generate());
+            gamePane.addAll(icons);
             // TODO add time countdown somewhere
         });
     }
 
     private void pressed() {
-
+        // TODO will be changed
+        if (status.isSuccess()) success();
+        else if (status.isFailure()) failure();
+        else notPressed();
     }
 
     private void success() {
-
+        // TODO will be changed
+        Platform.runLater(gamePane::clear);
+        endRound();
     }
 
     private void failure() {
+        // TODO will be changed
+        Platform.runLater(gamePane::clear);
+        endRound();
+    }
 
+    private void notPressed() {
+        // TODO will be change
+        Platform.runLater(gamePane::clear);
+        endRound();
     }
 
     private void endRound() {
-
+        // TODO more activities should be done here
+        status.endRound();
     }
 
     private void endGame() {
