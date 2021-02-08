@@ -7,6 +7,7 @@ import pl.edu.agh.cs.app.backend.icons.Icon;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.LinkedList;
@@ -27,7 +28,7 @@ public class IconsLoader {
         String path;
         try {
             if (url == null) throw new IllegalStateException("Cannot find the needed resources");
-            path = url.getPath();
+            path = url.toURI().getPath();
 
             File[] files = new File(path).listFiles();
 
@@ -37,7 +38,7 @@ public class IconsLoader {
                 filepaths.add(f.toPath());
             }
             return filepaths;
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException | URISyntaxException ex) {
             ex.printStackTrace();
             Platform.exit();
         }

@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 public class StatisticsWriter {
@@ -19,11 +20,11 @@ public class StatisticsWriter {
         stats.put("Reaction times", reactions);
 
         try (FileWriter writer = new FileWriter(
-                StatisticsWriter.class.getResource("/reactions.json").getPath(), false
+                StatisticsWriter.class.getResource("/reactions.json").toURI().getPath(), false
         )) {
             stats.writeJSONString(writer);
             writer.flush();
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             Platform.exit();
         }
