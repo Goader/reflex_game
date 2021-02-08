@@ -4,7 +4,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import pl.edu.agh.cs.app.backend.status.IGameStatus;
 
-// TODO maybe some better name
 public class TimeCountdownPane extends VBox {
     public TimeCountdownPane(IGameStatus status) {
         Label label = new Label("Time left");

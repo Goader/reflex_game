@@ -17,7 +17,7 @@ public class MainPane extends BorderPane {
         this.setPadding(new Insets(20));
         this.setMinWidth(width);
         this.setMinHeight(height);
-        this.setStyle("-fx-background-color: #333333");  // TODO more styling
+        this.setStyle("-fx-background-color: #333333");
         height -= 2 * padding;
         width -= 2 * padding;
 

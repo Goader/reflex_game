@@ -133,7 +133,7 @@ public class GameEngine {
         startMsg.setStyle("""
                 -fx-font-size: 128px;
                 -fx-font-weight: bold;
-                -fx-text-fill: #999933;
+                -fx-text-fill: #333333;
                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1, 1, 1, 1);""");
         updateLabel(startMsg, "Welcome to the Reflex Game");
         sleep(3000);

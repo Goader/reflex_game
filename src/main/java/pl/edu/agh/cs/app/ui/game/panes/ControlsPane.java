@@ -24,7 +24,6 @@ public class ControlsPane extends VBox {
         this.engine = engine;
         this.status = engine.getStatus();
 
-        // TODO the appearance will change, so the names are only temporary
         nextRoundBtn = new Button();
         stopGameBtn = new Button();
         fullScreenBtn = new Button();

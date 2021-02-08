@@ -23,11 +23,16 @@ public class ComputerChoiceGenerator {
     // I really wanted to use exGaussian distribution, but it requires another library and lots of parameters
     // so we gonna make it using just normal distribution and taking the mean out of config
     // btw, exGaussian distribution is often used to describe response time, so it's an ideal match for our problem
-    // TODO simulate exGaussian adding the random from exponential distribution to the result
+    // done: simulate exGaussian adding the random from exponential distribution to the result
     public void generate() {
+        // defining lambda the way, that chance of getting the number x or bigger one such that mean + x = roundTime,
+        // is equal to 5%
+        double lambda = Math.log(1 - 0.95) / (config.getComputerChoiceTime() - config.getChoiceTime());
+        double exponential = Math.log(1 - random.nextDouble()) / (-lambda);
+
         double mean = config.getComputerChoiceTime();
         double std = mean / 4;  // it means that with 4 * std we get more than 0 with a chance of 0.99997
-        choiceTime =  (int) Math.max(random.nextGaussian() * std + mean, 50);
+        choiceTime =  (int) Math.max(random.nextGaussian() * std + mean + exponential, 50);
 
         if (choiceTime >= config.getChoiceTime()) pressedResult = PressedStatus.NOTPRESSED;
         else {

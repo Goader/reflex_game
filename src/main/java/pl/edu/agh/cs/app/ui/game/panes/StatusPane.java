@@ -47,7 +47,6 @@ public class StatusPane extends HBox {
         }
 
         timerPane = new TimeCountdownPane(status);
-        // TODO maybe some size setting, dont know...
         Region blankSpace = new Region();
         HBox.setHgrow(blankSpace, Priority.ALWAYS);
 
