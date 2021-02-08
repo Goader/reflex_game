@@ -42,6 +42,12 @@ public class SettingsPane extends VBox {
         this.getChildren().addAll(generals, multies);
     }
 
+    public void setDefault() {
+        generals.setDefault();
+        singles.setDefault();
+        multies.setDefault();
+    }
+
     public GameConfiguration exportConfig() {
         GameConfiguration config = new GameConfiguration(state);
         config.setElementsCount(generals.getElementsCount());

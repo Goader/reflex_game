@@ -14,7 +14,9 @@ public class LauncherPane extends VBox {
     private final LauncherControlsPane controls;
     private final Region blankSpace;
 
-    public LauncherPane(int height, int width, Function<GameConfiguration, Void> playTrigger) {
+    public LauncherPane(Function<GameConfiguration, Void> playTrigger) {
+        this.setId("launcher");
+        this.getStylesheets().add(getClass().getResource("/style/launcher.css").toExternalForm());
 
         int betweenSettingsSpacing = 20;
         settings = new SettingsPane(betweenSettingsSpacing);

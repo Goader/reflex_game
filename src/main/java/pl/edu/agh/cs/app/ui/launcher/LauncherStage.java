@@ -20,7 +20,7 @@ public class LauncherStage extends Stage {
         this.setWidth(LAUNCHER_PIXELS_WIDTH);
         this.setTitle("Reflex Game Launcher");
 
-        root = new LauncherPane(LAUNCHER_PIXELS_HEIGHT, LAUNCHER_PIXELS_WIDTH, playTrigger);
+        root = new LauncherPane(playTrigger);
         scene = new Scene(root, LAUNCHER_PIXELS_WIDTH, LAUNCHER_PIXELS_HEIGHT);
 
         this.setScene(scene);

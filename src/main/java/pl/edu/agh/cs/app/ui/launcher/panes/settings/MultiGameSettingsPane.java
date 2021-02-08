@@ -14,19 +14,18 @@ public class MultiGameSettingsPane extends VBox {
     public MultiGameSettingsPane(int spacing, int boxSpacing) {
         super(spacing);
 
-        // TODO change initial values
-        computerTimeField = new TextField("2500");
-        computerWinChanceField = new TextField("0.67");
+        computerTimeField = new TextField();
+        computerWinChanceField = new TextField();
 
         computerTimeBox = new SettingsBox(boxSpacing);
         computerWinChanceBox = new SettingsBox(boxSpacing);
 
         computerTimeBox.getChildren().add(
-                new Label("Type in the average time in ms for the computer to make the choice"));
+                new Label("Average choice time in ms for the computer"));
         computerTimeBox.getChildren().add(computerTimeField);
 
         computerWinChanceBox.getChildren().add(
-                new Label("Type in the chance for the computer to make the right choice"));
+                new Label("Chance for the computer to make the right choice"));
         computerWinChanceBox.getChildren().add(computerWinChanceField);
 
         this.getChildren().addAll(computerTimeBox, computerWinChanceBox);
@@ -38,5 +37,10 @@ public class MultiGameSettingsPane extends VBox {
 
     public double getComputerWinChance() {
         return Double.parseDouble(computerWinChanceField.getText());
+    }
+
+    public void setDefault() {
+        computerTimeField.setText("1000");
+        computerWinChanceField.setText("0.85");
     }
 }

@@ -47,6 +47,7 @@ public class PointsGenerator {
         updateParameters();
         LinkedList<Vector2d> points = new LinkedList<>();
         boolean valid;
+        long timeStarted = System.currentTimeMillis();
         while (points.size() < pointsCount) {
             Vector2d newPoint = generatePoint();
             valid = true;
@@ -60,6 +61,10 @@ public class PointsGenerator {
 
             if (valid) {
                 points.add(newPoint);
+            }
+
+            if (System.currentTimeMillis() - timeStarted > 2500) {
+                return generate(pointsCount);
             }
         }
         return points;

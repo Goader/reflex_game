@@ -37,8 +37,8 @@ public class GameConfiguration {
     }
 
     public void setElementsCount(int elementsCount) {
-        if (elementsCount <= 0 || elementsCount > 32) {
-            throw new IllegalArgumentException("Elements count must be in the [1, 32] range");
+        if (elementsCount <= 0 || elementsCount > 36) {
+            throw new IllegalArgumentException("Elements count must be in the [1, 36] range");
         }
         this.elementsCount = elementsCount;
         /*

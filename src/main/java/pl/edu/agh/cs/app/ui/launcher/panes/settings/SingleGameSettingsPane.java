@@ -9,22 +9,22 @@ public class SingleGameSettingsPane extends VBox {
     private final SettingsBox deltaTimeBox;
 
     private final TextField failsCountField;
-    private final TextField gameTypeField;
+    private final TextField deltaTimeField;
 
     public SingleGameSettingsPane(int spacing, int boxSpacing) {
         super(spacing);
 
-        failsCountField = new TextField("10");
-        gameTypeField = new TextField("10");
+        failsCountField = new TextField();
+        deltaTimeField = new TextField();
 
         failsCountBox = new SettingsBox(boxSpacing);
         deltaTimeBox = new SettingsBox(boxSpacing);
 
-        failsCountBox.getChildren().add(new Label("Type in the maximum fails allowed"));
+        failsCountBox.getChildren().add(new Label("Maximum fails allowed"));
         failsCountBox.getChildren().add(failsCountField);
 
-        deltaTimeBox.getChildren().add(new Label("Type in the time in ms by which the general one will be reduced"));
-        deltaTimeBox.getChildren().add(gameTypeField);
+        deltaTimeBox.getChildren().add(new Label("Time in ms by which the general one will be reduced"));
+        deltaTimeBox.getChildren().add(deltaTimeField);
 
         this.getChildren().addAll(failsCountBox, deltaTimeBox);
     }
@@ -34,6 +34,11 @@ public class SingleGameSettingsPane extends VBox {
     }
 
     public int getDeltaTime() {
-        return Integer.parseInt(gameTypeField.getText());
+        return Integer.parseInt(deltaTimeField.getText());
+    }
+
+    public void setDefault() {
+        failsCountField.setText("3");
+        deltaTimeField.setText("50");
     }
 }

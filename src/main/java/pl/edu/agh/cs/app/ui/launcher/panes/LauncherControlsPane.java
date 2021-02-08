@@ -38,6 +38,14 @@ public class LauncherControlsPane extends HBox {
         startBtn = new Button("Start");
         exitBtn = new Button("Exit");
 
+        defaultBtn.setId("controls");
+        startBtn.setId("controls");
+        exitBtn.setId("controls");
+
+        defaultBtn.getStyleClass().add("controls");
+        startBtn.getStyleClass().add("controls");
+        exitBtn.getStyleClass().add("controls");
+
         defaultBtn.setOnAction(e -> defaultOnClick());
         startBtn.setOnAction(e -> startOnClick());
         exitBtn.setOnAction(e -> exitOnClick());
@@ -50,10 +58,7 @@ public class LauncherControlsPane extends HBox {
 
     // TODO will be changed later to provide the default settings from JSON file
     protected void defaultOnClick() {
-        Alert msg = new Alert(Alert.AlertType.INFORMATION);
-        msg.setTitle("Feature is not yet written");
-        msg.setHeaderText("Setting default settings will be available in the new version. Please type in manually :)");
-        msg.show();
+        settings.setDefault();
     }
 
     protected void startOnClick() {
