@@ -48,6 +48,8 @@ public interface IGameStatus {
 
     void stopGameTimer();
 
+    void disableGameTimer();
+
     void setGameTimer(GameTimer timer);
 
     void writeStatistics();

@@ -9,17 +9,12 @@ import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 import java.util.function.Function;
 
 public class LauncherPane extends VBox {
-    private final HBox modeSelector;  // TODO temporary decision, may be implemented later with ToggleButton and CSS sheet
+    private final HBox modeSelector;
     private final SettingsPane settings;
     private final LauncherControlsPane controls;
     private final Region blankSpace;
 
-    private final int pxheight;
-    private final int pxwidth;
-
     public LauncherPane(int height, int width, Function<GameConfiguration, Void> playTrigger) {
-        pxheight = height;
-        pxwidth = width;
 
         int betweenSettingsSpacing = 20;
         settings = new SettingsPane(betweenSettingsSpacing);

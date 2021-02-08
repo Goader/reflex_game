@@ -36,8 +36,6 @@ public class App extends Application {
         thread.setDaemon(true);
         thread.start();
 
-        // TODO some code handling the game
-
         mainStage.show();
         return null;
     }

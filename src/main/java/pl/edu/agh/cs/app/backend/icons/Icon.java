@@ -24,8 +24,4 @@ public class Icon extends Circle {
         this.setCenterX(center.getX());
         this.setCenterY(center.getY());
     }
-
-    public void relocate(Vector2d vector) {
-        this.relocate(vector.getX(), vector.getY());
-    }
 }

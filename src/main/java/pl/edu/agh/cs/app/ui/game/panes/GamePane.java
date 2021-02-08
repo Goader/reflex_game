@@ -8,16 +8,11 @@ import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 import java.util.Collection;
 
 public class GamePane extends Pane {
-    private final GameEngine engine;
-    private final GameConfiguration config;
 
     public GamePane(GameEngine engine, GameConfiguration config) {
         super();
         this.setHeight(config.getGameHeight());
         this.setWidth(config.getGameWidth());
-
-        this.engine = engine;
-        this.config = config;
 
         engine.setGamePane(this);
 

@@ -215,7 +215,6 @@ public class GameEngine {
         Platform.runLater(() -> {
             gamePane.clear();
             gamePane.addAll(icons);
-            // TODO add time countdown somewhere
             status.runGameTimer();
             status.measureTime();
             semaphore.release();
@@ -238,12 +237,10 @@ public class GameEngine {
                 thread.setDaemon(true);
                 thread.start();
             }
-        }, timerTime);  // TODO maybe in case of multigame use specific time as min(comptime, roundtime)
+        }, timerTime);
     }
 
     private void pressed() {
-        // TODO maybe more actions
-//        sleep(200);  // dont know how to create the feeling of really clicking  // maybe CSS?
         timer.cancel();
         // the if statement fixes the problem that would occur if clicking would be late to cancel the timer task
         // so they would be executed simultaneously causing lots of problems
@@ -256,7 +253,6 @@ public class GameEngine {
     }
 
     private void success() {
-        // TODO maybe more styling
         Label success = new Label();
         success.setStyle("""
                 -fx-font-size: 128px;
@@ -269,7 +265,6 @@ public class GameEngine {
     }
 
     private void failure() {
-        // TODO maybe more styling
         Label failure = new Label();
         failure.setStyle("""
                 -fx-font-size: 128px;
@@ -282,7 +277,7 @@ public class GameEngine {
     }
 
     private void notPressed() {
-        // TODO maybe more styling
+        status.disableGameTimer();
         Label notPressed = new Label();
         notPressed.setStyle("""
                 -fx-font-size: 128px;
@@ -307,7 +302,6 @@ public class GameEngine {
     }
 
     private void endRound() {
-        // TODO more activities should be done here
         Label endMsg = new Label();
         endMsg.setStyle("""
                 -fx-font-size: 64px;

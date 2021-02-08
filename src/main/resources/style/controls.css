@@ -1,0 +1,158 @@
+#nextRound {
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-image: url(../assets/playpause.png);
+    -fx-background-size: 48px 48px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #2e8731 0%, #256927 100%),
+            #1f9122,
+            #2ec932,
+            radial-gradient(center 50% 50%, radius 100%, #2ec932, #2e8731);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+}
+
+#nextRound:hover {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #2e8731 0%, #256927 100%),
+            #1f9122,
+            #2ec932,
+            radial-gradient(center 50% 50%, radius 100%, #38e83e, #2e8731);
+}
+#nextRound:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0, 2 0 3 0, 2 0 4 0, 2 0 5 0;
+    -fx-background-position: 50% 95px;
+}
+
+#stopGame {
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-image: url(../assets/close.png);
+    -fx-background-size: 92px 92px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #ad2d2d 0%, #821414 100%),
+            #b51f1f,
+            #cf1f1f,
+            radial-gradient(center 50% 50%, radius 100%, #c41b1b, #9c1717);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+}
+
+#stopGame:hover {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #ad2d2d 0%, #821414 100%),
+            #b51f1f,
+            #cf1f1f,
+            radial-gradient(center 50% 50%, radius 100%, #d91c1c, #9c1717);
+}
+#stopGame:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0, 2 0 3 0, 2 0 4 0, 2 0 5 0;
+    -fx-background-position: 50% 73px;
+}
+
+#fullScreen {
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-image: url(../assets/fullscreen.png);
+    -fx-background-size: 48px 48px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #2f74ba 0%, #1e5d9c 100%),
+            #286eb5,
+            #3e92e6,
+            radial-gradient(center 50% 50%, radius 100%, #3383d4, #1d70c4);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+}
+
+#fullScreen:hover {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #2f74ba 0%, #1e5d9c 100%),
+            #286eb5,
+            #3e92e6,
+            radial-gradient(center 50% 50%, radius 100%, #4097ed, #1d70c4);
+}
+#fullScreen:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0, 2 0 3 0, 2 0 4 0, 2 0 5 0;
+    -fx-background-position: 50% 95px;
+}
+
+#writeStatistics {
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-image: url(../assets/write.png);
+    -fx-background-size: 48px 48px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+            #9d4024,
+            #d86e3a,
+            radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+}
+
+#writeStatistics:hover {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+            #9d4024,
+            #d86e3a,
+            radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+#writeStatistics:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0, 2 0 3 0, 2 0 4 0, 2 0 5 0;
+    -fx-background-position: 50% 95px;
+}
+
+/*.btn {*/
+/*    background:url(../images/white_background.png) center repeat;*/
+/*    display: inline-block;*/
+/*    height: 100px;*/
+/*    width: 100px;*/
+/*    border-radius:  50px;*/
+/*    margin: 40px;*/
+/*    box-shadow: 0px 3px 20px #eee, inset 0px 2px 1px #666;*/
+/*}*/
+
+/*.btn:hover {*/
+/*    box-shadow: 0px 3px 10px #eee, inset 0px 2px 1px #666, inset 0px 0px 25px #666;*/
+/*}*/
+
+/*.btn::after {*/
+/*    content: "";*/
+/*    height: 100px;*/
+/*    width: 100px;*/
+/*    display: block;*/
+/*    opacity: .4;*/
+/*}*/
+
+/*.btn-google::after {*/
+/*    background: url(../images/google.png) center no-repeat;*/
+/*    background-size: 50px;*/
+/*}*/
+
+/*.btn-github::after {*/
+/*    background: url(../images/github.png) center no-repeat;*/
+/*    background-size: 50px;*/
+/*}*/
+
+/*.btn-stackoverflow::after {*/
+/*    background: url(../images/stackoverflow.png) center no-repeat;*/
+/*    background-size: 50px;*/
+/*}*/
+
+/*.btn:hover::after {*/
+/*    opacity: 1;*/
+/*    transition: .1s;*/
+/*    background-size: 60px;*/
+/*}*/

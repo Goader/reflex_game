@@ -5,7 +5,6 @@ import javafx.scene.control.Alert;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -24,9 +23,6 @@ public class StatisticsWriter {
         )) {
             stats.writeJSONString(writer);
             writer.flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Platform.exit();
         } catch (IOException e) {
             e.printStackTrace();
             Platform.exit();

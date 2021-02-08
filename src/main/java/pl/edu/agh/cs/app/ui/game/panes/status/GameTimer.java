@@ -5,14 +5,13 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
-import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 import pl.edu.agh.cs.app.backend.status.IGameStatus;
 
 public class GameTimer extends Label {
     private final IGameStatus status;
     private int startTime;
 
-    private int everyXms;
+    private final int everyXms;
 
     private Timeline timeline;
 

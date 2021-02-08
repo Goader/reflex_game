@@ -40,7 +40,7 @@ public class PointsGenerator {
         return new Vector2d(x, y);
     }
 
-    // TODO we can replace this naive approach using the Poisson Disc Sampling Algorithm
+    // we can replace this naive approach using the Poisson Disc Sampling Algorithm
     // https://www.youtube.com/watch?v=7WcmyxyFO7o
     // https://www.cs.ubc.ca/~rbridson/docs/bridson-siggraph07-poissondisk.pdf
     public List<Vector2d> generate(int pointsCount) {

@@ -4,16 +4,11 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import pl.edu.agh.cs.app.backend.GameEngine;
 import pl.edu.agh.cs.app.backend.data.GameConfiguration;
-import pl.edu.agh.cs.app.backend.status.IGameStatus;
 
 public class MainPane extends BorderPane {
     private final StatusPane statusPane;
     private final GamePane gamePane;
     private final ControlsPane controls;
-
-    private final GameEngine engine;
-    private final IGameStatus status;
-    private final GameConfiguration config;
 
     private final int padding = 20;
 
@@ -25,10 +20,6 @@ public class MainPane extends BorderPane {
         this.setStyle("-fx-background-color: #333333");  // TODO more styling
         height -= 2 * padding;
         width -= 2 * padding;
-
-        this.engine = engine;
-        this.status = engine.getStatus();
-        this.config = config;
 
         double gameHeight = 0.9 * height;
         double gameWidth = 0.95 * width;

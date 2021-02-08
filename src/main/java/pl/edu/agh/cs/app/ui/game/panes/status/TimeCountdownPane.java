@@ -2,7 +2,6 @@ package pl.edu.agh.cs.app.ui.game.panes.status;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 import pl.edu.agh.cs.app.backend.status.IGameStatus;
 
 // TODO maybe some better name

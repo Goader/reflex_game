@@ -1,8 +1,5 @@
 package pl.edu.agh.cs.app.ui.game.panes.status;
 
-import javafx.beans.binding.Binding;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.IntegerBinding;
 import javafx.scene.layout.HBox;
 import pl.edu.agh.cs.app.backend.status.MultiGameStatus;
 

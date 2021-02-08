@@ -6,13 +6,11 @@ import pl.edu.agh.cs.app.backend.utils.IconsLoader;
 import java.util.*;
 
 public class IconsGenerator {
-    private final String ICONS_PATH = "icons";
-
-    private final IconsLoader loader;
     private final LinkedList<Icon> storage;
 
     public IconsGenerator() {
-        loader = new IconsLoader(ICONS_PATH);
+        String ICONS_PATH = "icons";
+        IconsLoader loader = new IconsLoader(ICONS_PATH);
 
         storage = new LinkedList<>(loader.loadIcons());
     }

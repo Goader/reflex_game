@@ -24,7 +24,7 @@ public class MultiGameStatus extends AbstractGameStatus {
         playedRounds = new SimpleIntegerProperty();
         computerPoints.set(0);
         playedRounds.set(0);
-        roundsToPlay = 10;  // TODO may be included to the launcher and config
+        roundsToPlay = 10;  // may be included to the launcher and config
     }
 
     @Override

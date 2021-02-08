@@ -44,14 +44,8 @@ public class LayoutGenerator {
             icon.setRadius(config.getRadius());
             icon.setRotate(random.nextInt(360));
 
-            icon.setOnMouseClicked(e -> {
-                System.out.println(position);
-            });
-            // TODO maybe make shadow via CSS
             icon.setEffect(new DropShadow(8, Color.rgb(0, 0, 0, 0.8)));
             icon.setId("icon");
-
-            // TODO maybe some other effects
         }
 
         return icons;

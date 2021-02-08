@@ -24,12 +24,24 @@ public class IconsLoader {
 
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         URL url = loader.getResource(folderPath);
-        String path = url.getPath();
+        String path;
+        try {
+            if (url == null) throw new IllegalStateException("Cannot find the needed resources");
+            path = url.getPath();
 
-        for (File f : new File(path).listFiles()) {
-            filepaths.add(f.toPath());
+            File[] files = new File(path).listFiles();
+
+            if (files == null) throw new IllegalStateException("Cannot find the needed resources");
+
+            for (File f : files) {
+                filepaths.add(f.toPath());
+            }
+            return filepaths;
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+            Platform.exit();
         }
-        return filepaths;
+        return new LinkedList<>();
     }
 
     public List<Icon> loadIcons() {

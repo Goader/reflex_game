@@ -5,7 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class StatusBox extends VBox {
-    // TODO checkout if works
     public StatusBox(int boxSpacing, String labelText, StringExpression binding) {
         super(boxSpacing);
         Label label = new Label(labelText);

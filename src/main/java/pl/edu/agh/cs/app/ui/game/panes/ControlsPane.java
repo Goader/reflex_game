@@ -25,15 +25,31 @@ public class ControlsPane extends VBox {
         this.status = engine.getStatus();
 
         // TODO the appearance will change, so the names are only temporary
-        nextRoundBtn = new Button("next");
-        stopGameBtn = new Button("stop");
-        fullScreenBtn = new Button("full");
-        writeStatisticsBtn = new Button("stat");
+        nextRoundBtn = new Button();
+        stopGameBtn = new Button();
+        fullScreenBtn = new Button();
+        writeStatisticsBtn = new Button();
+
+        nextRoundBtn.setId("nextRound");
+        stopGameBtn.setId("stopGame");
+        fullScreenBtn.setId("fullScreen");
+        writeStatisticsBtn.setId("writeStatistics");
+
+        nextRoundBtn.setMinSize(96, 234);
+        nextRoundBtn.setMaxSize(96, 234);
+        stopGameBtn.setMinSize(96, 234);
+        stopGameBtn.setMaxSize(96, 234);
+        fullScreenBtn.setMinSize(96, 234);
+        fullScreenBtn.setMaxSize(96, 234);
+        writeStatisticsBtn.setMinSize(96, 234);
+        writeStatisticsBtn.setMaxSize(96, 234);
 
         nextRoundBtn.setOnAction(e -> nextRoundOnClick());
         stopGameBtn.setOnAction(e -> stopGameOnClick());
         fullScreenBtn.setOnAction(e -> fullScreenOnClick());
         writeStatisticsBtn.setOnAction(e -> writeStatisticsOnClick());
+
+        this.getStylesheets().add(getClass().getResource("/style/controls.css").toExternalForm());
 
         this.getChildren().addAll(nextRoundBtn, stopGameBtn, fullScreenBtn, writeStatisticsBtn);
     }

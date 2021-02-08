@@ -154,6 +154,11 @@ abstract public class AbstractGameStatus implements IGameStatus {
     }
 
     @Override
+    public void disableGameTimer() {
+        timer.disable();
+    }
+
+    @Override
     public void setGameTimer(GameTimer timer) {
         this.timer = timer;
     }
