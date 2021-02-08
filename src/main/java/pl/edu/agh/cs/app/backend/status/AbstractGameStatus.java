@@ -27,7 +27,7 @@ abstract public class AbstractGameStatus implements IGameStatus {
     protected int timePressed;
     protected long startTime;
 
-    protected IntegerProperty playerPoints;
+    protected final IntegerProperty playerPoints;
 
     public AbstractGameStatus(GameConfiguration config) {
         this.config = config;
