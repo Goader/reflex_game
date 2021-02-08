@@ -245,6 +245,7 @@ public class GameEngine {
         // so they would be executed simultaneously causing lots of problems
         if (!status.isChoiceHandled()) status.handleChoice();
         else return;
+        status.stopGameTimer();
         if (status.isSuccess()) success();
         else if (status.isFailure()) failure();
         else notPressed();

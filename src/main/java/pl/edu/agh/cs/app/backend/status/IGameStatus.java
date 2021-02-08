@@ -1,13 +1,20 @@
 package pl.edu.agh.cs.app.backend.status;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import pl.edu.agh.cs.app.backend.status.states.PressedStatus;
 import pl.edu.agh.cs.app.ui.game.panes.status.GameTimer;
 
 public interface IGameStatus {
+    // yep, I know, the methods are in a totally random order :D
+
     BooleanProperty getFullScreenProperty();
 
     void toggleFullScreen();
+
+    int getPlayerPoints();
+
+    IntegerProperty getPlayerPointsProperty();
 
     boolean isChoiceHandled();
 
@@ -18,6 +25,8 @@ public interface IGameStatus {
     boolean isSuccess();
 
     boolean isFailure();
+
+    IntegerProperty averageReactionProperty();
 
     int getRoundTime();
 
@@ -32,6 +41,8 @@ public interface IGameStatus {
     boolean isGameFinished();
 
     void runGameTimer();
+
+    void stopGameTimer();
 
     void setGameTimer(GameTimer timer);
 }

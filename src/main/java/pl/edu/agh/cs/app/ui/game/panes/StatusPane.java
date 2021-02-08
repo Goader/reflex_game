@@ -3,6 +3,7 @@ package pl.edu.agh.cs.app.ui.game.panes;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import pl.edu.agh.cs.app.backend.GameEngine;
 import pl.edu.agh.cs.app.backend.status.IGameStatus;
 import pl.edu.agh.cs.app.backend.status.MultiGameStatus;
 import pl.edu.agh.cs.app.ui.game.panes.status.GeneralStatusPane;
@@ -18,9 +19,10 @@ public class StatusPane extends HBox {
     private final int spacing = 40;
     private final int boxSpacing = 10;
 
-    public StatusPane(IGameStatus status, GameConfiguration config) {
+    public StatusPane(GameEngine engine, GameConfiguration config) {
         super();
         this.setSpacing(spacing);
+        IGameStatus status = engine.getStatus();
 
         general = new GeneralStatusPane(spacing, boxSpacing, status);
         this.getChildren().add(general);
@@ -28,14 +30,14 @@ public class StatusPane extends HBox {
             if (!(status instanceof MultiGameStatus)) {
                 throw new IllegalStateException("The status object game mode does not match the config game mode");
             }
-            multi = new MultiGameStatusPane(spacing, boxSpacing, (MultiGameStatus) status);
+            multi = new MultiGameStatusPane(spacing, boxSpacing, engine.getMultiGameStatus());
             this.getChildren().add(multi);
         }
         else {
             multi = null;
         }
 
-        timerPane = new TimeCountdownPane(status, config);
+        timerPane = new TimeCountdownPane(status);
         // TODO maybe some size setting, dont know...
         Region blankSpace = new Region();
         HBox.setHgrow(blankSpace, Priority.ALWAYS);

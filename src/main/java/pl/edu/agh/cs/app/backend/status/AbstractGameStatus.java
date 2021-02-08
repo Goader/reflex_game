@@ -1,14 +1,19 @@
 package pl.edu.agh.cs.app.backend.status;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import pl.edu.agh.cs.app.backend.data.GameConfiguration;
+import pl.edu.agh.cs.app.backend.statistics.GameStatistics;
 import pl.edu.agh.cs.app.backend.status.states.PressedStatus;
 import pl.edu.agh.cs.app.ui.game.panes.status.GameTimer;
 
 abstract public class AbstractGameStatus implements IGameStatus {
     protected final GameConfiguration config;
     protected GameTimer timer;
+
+    protected final GameStatistics statistics;
 
     protected final BooleanProperty fullScreenProperty;
 
@@ -21,6 +26,8 @@ abstract public class AbstractGameStatus implements IGameStatus {
     protected int timePressed;
     protected long startTime;
 
+    protected IntegerProperty playerPoints;
+
     public AbstractGameStatus(GameConfiguration config) {
         this.config = config;
         fullScreenProperty = new SimpleBooleanProperty(true);
@@ -28,6 +35,9 @@ abstract public class AbstractGameStatus implements IGameStatus {
         gameFinished = false;
         pressed = PressedStatus.NOTPRESSED;
         roundTime = config.getChoiceTime();
+        playerPoints = new SimpleIntegerProperty();
+        playerPoints.set(0);
+        statistics = new GameStatistics();
     }
 
     @Override
@@ -38,6 +48,16 @@ abstract public class AbstractGameStatus implements IGameStatus {
     @Override
     public void toggleFullScreen() {
         fullScreenProperty.set(!fullScreenProperty.get());
+    }
+
+    @Override
+    public int getPlayerPoints() {
+        return playerPoints.get();
+    }
+
+    @Override
+    public IntegerProperty getPlayerPointsProperty() {
+        return playerPoints;
     }
 
     @Override
@@ -55,17 +75,22 @@ abstract public class AbstractGameStatus implements IGameStatus {
         // the difference cannot exceed the time set in the config, and it has 'int' constraint
         timePressed = (int) (System.currentTimeMillis() - startTime);
         this.pressed = pressed;
-        System.out.println(timePressed);  // TODO this needs to be passed to the statistics, note that pressed != NOTPRESSED
+        if (pressed.isSuccess()) statistics.addNewReactionTime(timePressed);
     }
 
     @Override
     public boolean isSuccess() {
-        return pressed.equals(PressedStatus.SUCCESS);
+        return pressed.isSuccess();
     }
 
     @Override
     public boolean isFailure() {
-        return pressed.equals(PressedStatus.FAILURE);
+        return pressed.isFailure();
+    }
+
+    @Override
+    public IntegerProperty averageReactionProperty() {
+        return statistics.averageReactionTimeProperty();
     }
 
     @Override
@@ -108,6 +133,11 @@ abstract public class AbstractGameStatus implements IGameStatus {
     @Override
     public void runGameTimer() {
         timer.run();
+    }
+
+    @Override
+    public void stopGameTimer() {
+        timer.stop();
     }
 
     @Override

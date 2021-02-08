@@ -14,8 +14,9 @@ public class MultiGameSettingsPane extends VBox {
     public MultiGameSettingsPane(int spacing, int boxSpacing) {
         super(spacing);
 
-        computerTimeField = new TextField();
-        computerWinChanceField = new TextField();
+        // TODO change initial values
+        computerTimeField = new TextField("2500");
+        computerWinChanceField = new TextField("0.67");
 
         computerTimeBox = new SettingsBox(boxSpacing);
         computerWinChanceBox = new SettingsBox(boxSpacing);

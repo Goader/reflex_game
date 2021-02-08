@@ -36,7 +36,7 @@ public class MainPane extends BorderPane {
         config.setGameHeight((int) gameHeight);
         config.setGameWidth((int) gameWidth);
 
-        statusPane = new StatusPane(status, config);
+        statusPane = new StatusPane(engine, config);
         gamePane = new GamePane(engine, config);
         controls = new ControlsPane(engine);
 

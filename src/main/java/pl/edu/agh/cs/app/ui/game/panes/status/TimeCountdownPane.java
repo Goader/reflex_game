@@ -7,7 +7,7 @@ import pl.edu.agh.cs.app.backend.status.IGameStatus;
 
 // TODO maybe some better name
 public class TimeCountdownPane extends VBox {
-    public TimeCountdownPane(IGameStatus status, GameConfiguration config) {
+    public TimeCountdownPane(IGameStatus status) {
         Label label = new Label("Time left");
         label.setStyle("""
                 -fx-font-size: 24px;
@@ -16,7 +16,7 @@ public class TimeCountdownPane extends VBox {
                 -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.5), 1,1,1,1);""");
         this.getChildren().add(label);
 
-        GameTimer gameTimer = new GameTimer(status, config);
+        GameTimer gameTimer = new GameTimer(status);
         this.getChildren().add(gameTimer);
     }
 }
