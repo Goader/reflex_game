@@ -1,13 +1,8 @@
 package pl.edu.agh.cs.app.ui.game.panes.status;
 
-import javafx.beans.binding.NumberExpressionBase;
-import javafx.beans.binding.StringBinding;
 import javafx.beans.binding.StringExpression;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import pl.edu.agh.cs.app.ui.game.panes.StatusPane;
 
 public class StatusBox extends VBox {
     // TODO checkout if works

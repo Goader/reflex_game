@@ -20,6 +20,7 @@ abstract public class AbstractGameStatus implements IGameStatus {
     protected boolean roundFinished;
     protected boolean gameFinished;
     protected boolean handledChoice;
+    protected boolean paused;
 
     protected PressedStatus pressed;
     protected int roundTime;
@@ -38,6 +39,7 @@ abstract public class AbstractGameStatus implements IGameStatus {
         playerPoints = new SimpleIntegerProperty();
         playerPoints.set(0);
         statistics = new GameStatistics();
+        paused = false;
     }
 
     @Override
@@ -48,6 +50,16 @@ abstract public class AbstractGameStatus implements IGameStatus {
     @Override
     public void toggleFullScreen() {
         fullScreenProperty.set(!fullScreenProperty.get());
+    }
+
+    @Override
+    public boolean isPaused() {
+        return paused;
+    }
+
+    @Override
+    public void togglePause() {
+        paused = !paused;
     }
 
     @Override
@@ -128,6 +140,7 @@ abstract public class AbstractGameStatus implements IGameStatus {
 
     protected void endGame() {
         gameFinished = true;
+        timer.disable();
     }
 
     @Override
@@ -143,5 +156,10 @@ abstract public class AbstractGameStatus implements IGameStatus {
     @Override
     public void setGameTimer(GameTimer timer) {
         this.timer = timer;
+    }
+
+    @Override
+    public void writeStatistics() {
+        statistics.writeStatistics();
     }
 }

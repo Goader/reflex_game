@@ -3,6 +3,7 @@ package pl.edu.agh.cs.app.backend.statistics;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import pl.edu.agh.cs.app.backend.utils.StatisticsWriter;
 
 import java.util.LinkedList;
 
@@ -28,6 +29,6 @@ public class GameStatistics {
     }
 
     public void writeStatistics() {
-        // TODO implement
+        StatisticsWriter.write(reactionTimes);
     }
 }

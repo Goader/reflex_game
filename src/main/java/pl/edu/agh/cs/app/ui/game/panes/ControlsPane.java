@@ -30,16 +30,17 @@ public class ControlsPane extends VBox {
         fullScreenBtn = new Button("full");
         writeStatisticsBtn = new Button("stat");
 
-        // TODO onaction
         nextRoundBtn.setOnAction(e -> nextRoundOnClick());
         stopGameBtn.setOnAction(e -> stopGameOnClick());
         fullScreenBtn.setOnAction(e -> fullScreenOnClick());
+        writeStatisticsBtn.setOnAction(e -> writeStatisticsOnClick());
 
         this.getChildren().addAll(nextRoundBtn, stopGameBtn, fullScreenBtn, writeStatisticsBtn);
     }
 
     private void nextRoundOnClick() {
-        if (status.isRoundFinished() && !status.isGameFinished()) {
+        status.togglePause();
+        if (!status.isPaused() && status.isRoundFinished() && !status.isGameFinished()) {
             Thread thread = new Thread(engine.getNextRoundTask());
             thread.setDaemon(true);
             thread.start();
@@ -54,5 +55,7 @@ public class ControlsPane extends VBox {
         status.toggleFullScreen();
     }
 
-    // TODO onclick actions
+    private void writeStatisticsOnClick() {
+        status.writeStatistics();
+    }
 }

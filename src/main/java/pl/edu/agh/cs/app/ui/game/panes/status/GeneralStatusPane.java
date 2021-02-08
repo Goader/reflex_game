@@ -12,6 +12,7 @@ public class GeneralStatusPane extends HBox {
         super(spacing);
 
         playerPoints = new StatusBox(boxSpacing, "Your points", status.getPlayerPointsProperty().asString());
+        // 3rd argument simulates modulo operation with the following ones
         averageReactionTime = new StatusBox(boxSpacing, "Average reaction time",
                 Bindings.concat(
                         status.averageReactionProperty().divide(1000).asString(),

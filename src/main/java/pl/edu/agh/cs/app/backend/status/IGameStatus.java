@@ -12,6 +12,10 @@ public interface IGameStatus {
 
     void toggleFullScreen();
 
+    boolean isPaused();
+
+    void togglePause();
+
     int getPlayerPoints();
 
     IntegerProperty getPlayerPointsProperty();
@@ -45,4 +49,6 @@ public interface IGameStatus {
     void stopGameTimer();
 
     void setGameTimer(GameTimer timer);
+
+    void writeStatistics();
 }

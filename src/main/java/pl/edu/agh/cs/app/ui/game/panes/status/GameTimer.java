@@ -61,4 +61,8 @@ public class GameTimer extends Label {
     public void stop() {
         timeline.stop();
     }
+
+    public void disable() {
+        Platform.runLater(() -> this.setText("0:00s"));
+    }
 }

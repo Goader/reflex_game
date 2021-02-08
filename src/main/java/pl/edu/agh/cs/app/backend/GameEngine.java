@@ -98,6 +98,10 @@ public class GameEngine {
         return status;
     }
 
+    public SingleGameStatus getSingleGameStatus() {
+        return singleGameStatus;
+    }
+
     public MultiGameStatus getMultiGameStatus() {
         return multiGameStatus;
     }
@@ -287,6 +291,11 @@ public class GameEngine {
                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);""");
         if (config.isSingleMode()) updateLabel(notPressed, "Not pressed");
         else {
+            notPressed.setStyle("""
+                -fx-font-size: 64px;
+                -fx-font-weight: bold;
+                -fx-text-fill: #333333;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);""");
             if (multiGameStatus.getPressedComputer().isSuccess()) updateLabel(notPressed,
                     "Computer has found the right icon");
             else if (multiGameStatus.getPressedComputer().isFailure()) updateLabel(notPressed,
@@ -311,7 +320,7 @@ public class GameEngine {
             endGame();
             return;
         }
-        nextRound();  // TODO don't know what is better :(
+        if (!status.isPaused()) nextRound();
     }
 
     private void endGame() {
