@@ -7,7 +7,6 @@ import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 
 import java.util.Collection;
 
-// still not sure about inheriting from group or from pane
 public class GamePane extends Pane {
     private final GameEngine engine;
     private final GameConfiguration config;
@@ -27,10 +26,6 @@ public class GamePane extends Pane {
 
         // TODO may be changed later simply using CSS file
         this.setStyle("-fx-background-color: white;");  // the color may changed to the other one or even image
-
-        // TODO this should not be here, should be distributed between LayoutGenerator and GameEngine
-//        LayoutGenerator layout = new LayoutGenerator(config);
-//        this.addAll(layout.generate());
     }
 
     public void clear() {

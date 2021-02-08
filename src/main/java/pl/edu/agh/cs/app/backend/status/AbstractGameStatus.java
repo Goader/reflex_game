@@ -4,9 +4,11 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import pl.edu.agh.cs.app.backend.data.GameConfiguration;
 import pl.edu.agh.cs.app.backend.status.states.PressedStatus;
+import pl.edu.agh.cs.app.ui.game.panes.status.GameTimer;
 
 abstract public class AbstractGameStatus implements IGameStatus {
     protected final GameConfiguration config;
+    protected GameTimer timer;
 
     protected final BooleanProperty fullScreenProperty;
 
@@ -17,6 +19,7 @@ abstract public class AbstractGameStatus implements IGameStatus {
     protected PressedStatus pressed;
     protected int roundTime;
     protected int timePressed;
+    protected long startTime;
 
     public AbstractGameStatus(GameConfiguration config) {
         this.config = config;
@@ -49,7 +52,10 @@ abstract public class AbstractGameStatus implements IGameStatus {
 
     @Override
     public void pressed(PressedStatus pressed) {
+        // the difference cannot exceed the time set in the config, and it has 'int' constraint
+        timePressed = (int) (System.currentTimeMillis() - startTime);
         this.pressed = pressed;
+        System.out.println(timePressed);  // TODO this needs to be passed to the statistics, note that pressed != NOTPRESSED
     }
 
     @Override
@@ -68,14 +74,15 @@ abstract public class AbstractGameStatus implements IGameStatus {
     }
 
     @Override
-    public void setPressedTime(int pressedTime) {
-        timePressed = pressedTime;
+    public void measureTime() {
+        startTime = System.currentTimeMillis();
     }
 
     @Override
     public void startRound() {
         roundFinished = false;
         handledChoice = false;
+        timer.setStartTime();
         pressed = PressedStatus.NOTPRESSED;
     }
 
@@ -98,5 +105,13 @@ abstract public class AbstractGameStatus implements IGameStatus {
         gameFinished = true;
     }
 
+    @Override
+    public void runGameTimer() {
+        timer.run();
+    }
 
+    @Override
+    public void setGameTimer(GameTimer timer) {
+        this.timer = timer;
+    }
 }

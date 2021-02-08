@@ -1,6 +1,5 @@
 package pl.edu.agh.cs.app.backend;
 
-import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.Group;
@@ -8,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import pl.edu.agh.cs.app.backend.data.GameConfiguration;
+import pl.edu.agh.cs.app.backend.generators.ComputerChoiceGenerator;
 import pl.edu.agh.cs.app.backend.generators.LayoutGenerator;
 import pl.edu.agh.cs.app.backend.geometry.Vector2d;
 import pl.edu.agh.cs.app.backend.icons.Icon;
@@ -27,9 +27,10 @@ public class GameEngine {
     private final GameConfiguration config;
 
     private GamePane gamePane;
-    private IGameStatus status;
-    private SingleGameStatus singleGameStatus;
-    private MultiGameStatus multiGameStatus;
+    private final IGameStatus status;
+    private final SingleGameStatus singleGameStatus;
+    private final MultiGameStatus multiGameStatus;
+    private final ComputerChoiceGenerator computer;
 
     private final LayoutGenerator generator;
 
@@ -42,45 +43,47 @@ public class GameEngine {
         }
 
         this.config = config;
-        singleGameStatus = null;
-        multiGameStatus = null;
 
         if (config.isSingleMode()) {
+            computer = null;
             singleGameStatus = new SingleGameStatus(config);
+            multiGameStatus = null;
             status = singleGameStatus;
         }
         else {
-            multiGameStatus = new MultiGameStatus(config);
+            computer = new ComputerChoiceGenerator(config);
+            multiGameStatus = new MultiGameStatus(config, computer);
+            singleGameStatus = null;
             status = multiGameStatus;
         }
 
         generator = new LayoutGenerator(config);
     }
 
-    public Task getStartTask() {
-        return new Task() {
+    public Task<Void> getStartTask() {
+        return new Task<>() {
             @Override
-            protected Object call() {
+            protected Void call() {
                 startGame();
                 return null;
             }
         };
     }
 
-    public Task getNextRoundTask() {
-        return new Task() {
+    public Task<Void> getNextRoundTask() {
+        return new Task<>() {
             @Override
-            protected Object call() {
+            protected Void call() {
                 nextRound();
                 return null;
             }
         };
     }
 
-    public Task getPressedTask() {
-        return new Task() {
+    public Task<Void> getPressedTask() {
+        return new Task<>() {
             @Override
-            protected Object call() {
+            protected Void call() {
                 pressed();
                 return null;
             }
@@ -92,7 +95,11 @@ public class GameEngine {
     }
 
     public IGameStatus getStatus() {
-        return config.isSingleMode() ? singleGameStatus : multiGameStatus;
+        return status;
+    }
+
+    public MultiGameStatus getMultiGameStatus() {
+        return multiGameStatus;
     }
 
     private void sleep(int time) {
@@ -118,7 +125,14 @@ public class GameEngine {
         if (gamePane == null) {
             throw new IllegalStateException("You cannot start game without linking the game window first");
         }
-
+        Label startMsg = new Label();
+        startMsg.setStyle("""
+                -fx-font-size: 128px;
+                -fx-font-weight: bold;
+                -fx-text-fill: #999933;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1, 1, 1, 1);""");
+        updateLabel(startMsg, "Welcome to the Reflex Game");
+        sleep(3000);
         nextRound();
     }
 
@@ -134,10 +148,11 @@ public class GameEngine {
     public void nextRound() {
         final int msgIconSpacing = 100;
         Label findMsg = new Label("Try to find this icon");
-        findMsg.setStyle("-fx-font-size: 128px;\n" +
-                "-fx-font-weight: bold;\n" +
-                "-fx-text-fill: #333333;\n" +
-                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1, 1, 1, 1);");
+        findMsg.setStyle("""
+                -fx-font-size: 128px;
+                -fx-font-weight: bold;
+                -fx-text-fill: #333333;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1, 1, 1, 1);""");
         List<Icon> icons = generator.generate();
         for (Icon icon : icons) {
             setMouseClickHandler(icon, PressedStatus.FAILURE);
@@ -161,6 +176,7 @@ public class GameEngine {
             findIcon.setCenter(center);
             gamePane.add(findMsg, findIcon);
         });
+
         status.startRound();
         sleep(3000);
         startCountdown(icons);
@@ -168,10 +184,11 @@ public class GameEngine {
 
     private void startCountdown(List<Icon> icons) {
         Label countdown = new Label();
-        countdown.setStyle("-fx-font-size: 128px;\n" +
-                "-fx-font-weight: bold;\n" +
-                "-fx-text-fill: #333333;\n" +
-                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
+        countdown.setStyle("""
+                -fx-font-size: 128px;
+                -fx-font-weight: bold;
+                -fx-text-fill: #333333;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);""");
 
         updateLabel(countdown, "3");
         sleep(1000);
@@ -186,22 +203,30 @@ public class GameEngine {
     }
 
     private void play(List<Icon> icons) {
+        GameEngine engine = this;
+        // maybe that's not the best way to handle this problem, still it works
+        timer = new Timer(true);
+
         Semaphore semaphore = new Semaphore(0);
         Platform.runLater(() -> {
             gamePane.clear();
             gamePane.addAll(icons);
             // TODO add time countdown somewhere
+            status.runGameTimer();
+            status.measureTime();
             semaphore.release();
         });
+
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             ex.printStackTrace();
             Platform.exit();
         }
-        GameEngine engine = this;
-        // maybe that's not the best way to handle this problem, still it works
-        timer = new Timer(true);
+
+        int timerTime = status.getRoundTime();
+        if (config.isMultiMode()) timerTime = Math.min(timerTime, computer.getChoiceTime());
+
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -209,7 +234,7 @@ public class GameEngine {
                 thread.setDaemon(true);
                 thread.start();
             }
-        }, status.getRoundTime());
+        }, timerTime);  // TODO maybe in case of multigame use specific time as min(comptime, roundtime)
     }
 
     private void pressed() {
@@ -228,10 +253,11 @@ public class GameEngine {
     private void success() {
         // TODO maybe more styling
         Label success = new Label();
-        success.setStyle("-fx-font-size: 128px;\n" +
-                "-fx-font-weight: bold;\n" +
-                "-fx-text-fill: #007700;\n" +
-                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
+        success.setStyle("""
+                -fx-font-size: 128px;
+                -fx-font-weight: bold;
+                -fx-text-fill: #007700;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);""");
         updateLabel(success, "Success");
         sleep(1800);
         endRound();
@@ -240,10 +266,11 @@ public class GameEngine {
     private void failure() {
         // TODO maybe more styling
         Label failure = new Label();
-        failure.setStyle("-fx-font-size: 128px;\n" +
-                "-fx-font-weight: bold;\n" +
-                "-fx-text-fill: #990000;\n" +
-                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
+        failure.setStyle("""
+                -fx-font-size: 128px;
+                -fx-font-weight: bold;
+                -fx-text-fill: #990000;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);""");
         updateLabel(failure, "Failure");
         sleep(1800);
         endRound();
@@ -251,12 +278,20 @@ public class GameEngine {
 
     private void notPressed() {
         // TODO maybe more styling
-        Label failure = new Label();
-        failure.setStyle("-fx-font-size: 128px;\n" +
-                "-fx-font-weight: bold;\n" +
-                "-fx-text-fill: #333333;\n" +
-                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
-        updateLabel(failure, "Not pressed");
+        Label notPressed = new Label();
+        notPressed.setStyle("""
+                -fx-font-size: 128px;
+                -fx-font-weight: bold;
+                -fx-text-fill: #333333;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);""");
+        if (config.isSingleMode()) updateLabel(notPressed, "Not pressed");
+        else {
+            if (multiGameStatus.getPressedComputer().isSuccess()) updateLabel(notPressed,
+                    "Computer has found the right icon");
+            else if (multiGameStatus.getPressedComputer().isFailure()) updateLabel(notPressed,
+                    "Computer has pressed on the wrong icon");
+            else updateLabel(notPressed, "Nobody has pressed in the given time");
+        }
         sleep(1800);
         endRound();
     }
@@ -264,10 +299,11 @@ public class GameEngine {
     private void endRound() {
         // TODO more activities should be done here
         Label endMsg = new Label();
-        endMsg.setStyle("-fx-font-size: 64px;\n" +
-                "-fx-font-weight: bold;\n" +
-                "-fx-text-fill: #333333;\n" +
-                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
+        endMsg.setStyle("""
+                -fx-font-size: 64px;
+                -fx-font-weight: bold;
+                -fx-text-fill: #333333;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);""");
         updateLabel(endMsg, "Press the green button to continue");
         status.endRound();
         if (status.isGameFinished()) {
@@ -279,10 +315,11 @@ public class GameEngine {
 
     private void endGame() {
         Label endGameMsg = new Label();
-        endGameMsg.setStyle("-fx-font-size: 128px;\n" +
-                "-fx-font-weight: bold;\n" +
-                "-fx-text-fill: #333333;\n" +
-                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);");
+        endGameMsg.setStyle("""
+                -fx-font-size: 128px;
+                -fx-font-weight: bold;
+                -fx-text-fill: #333333;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 1,1,1,1);""");
         updateLabel(endGameMsg, "Game Over");
     }
 

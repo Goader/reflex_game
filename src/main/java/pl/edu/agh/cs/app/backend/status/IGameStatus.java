@@ -2,6 +2,7 @@ package pl.edu.agh.cs.app.backend.status;
 
 import javafx.beans.property.BooleanProperty;
 import pl.edu.agh.cs.app.backend.status.states.PressedStatus;
+import pl.edu.agh.cs.app.ui.game.panes.status.GameTimer;
 
 public interface IGameStatus {
     BooleanProperty getFullScreenProperty();
@@ -20,7 +21,7 @@ public interface IGameStatus {
 
     int getRoundTime();
 
-    void setPressedTime(int pressedTime);
+    void measureTime();
 
     void startRound();
 
@@ -30,5 +31,7 @@ public interface IGameStatus {
 
     boolean isGameFinished();
 
+    void runGameTimer();
 
+    void setGameTimer(GameTimer timer);
 }

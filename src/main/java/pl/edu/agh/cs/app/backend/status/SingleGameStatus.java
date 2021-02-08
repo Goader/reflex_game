@@ -14,17 +14,19 @@ public class SingleGameStatus extends AbstractGameStatus {
     @Override
     public void pressed(PressedStatus pressed) {
         super.pressed(pressed);
-        if (pressed.isFailure()) {
-            timesFailed++;
-            if (timesFailed >= config.getFailsCount()) {
-                endGame();
-            }
-        }
     }
 
     @Override
     public void endRound() {
         super.endRound();
+        if (!pressed.isSuccess()) {
+            timesFailed++;
+            System.out.println(timesFailed);
+            System.out.println(config.getFailsCount());
+            if (timesFailed >= config.getFailsCount()) {
+                endGame();
+            }
+        }
         roundTime -= config.getDeltaTime();
         if (roundTime <= 0) endGame();
     }
