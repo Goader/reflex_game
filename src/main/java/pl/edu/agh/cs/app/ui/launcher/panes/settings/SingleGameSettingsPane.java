@@ -64,7 +64,7 @@ public class SingleGameSettingsPane extends VBox {
         failsCountBox.getChildren().add(new Label("Maximum fails allowed"));
         failsCountBox.getChildren().add(failsCountValidField);
 
-        deltaTimeBox.getChildren().add(new Label("Time in ms by which the general one will be reduced"));
+        deltaTimeBox.getChildren().add(new Label("Time in ms by which the general time will be reduced"));
         deltaTimeBox.getChildren().add(deltaTimeValidField);
 
         setValidation();
